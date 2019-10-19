@@ -46,9 +46,14 @@ public class Blacksmith implements Serializable {
                             case GO_TO_STORE:
                                 String input;
                                 do {
-                                    System.out.println("Showing avaliable wares");
+                                    System.out.println("Showing available wares" +
+                                            "\nCurrently Sorting by:");
                                     showElementsInArrayList(shop.getProducts());
+                                    System.out.println();
 
+                                    System.out.println("Write name of product to add to cart." +
+                                            "\nWrite SORT to change Sorting order" +
+                                            "\nWrite 'return' to head back to menu");
                                     input = MiscUtility.scanner.nextLine();
                                 }while (!(input.equalsIgnoreCase("return")));
                                 break;
