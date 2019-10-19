@@ -1,0 +1,26 @@
+package com.company.Menu;
+
+import com.company.DefineMenu;
+
+public enum EmployerMenu implements DefineMenu {
+    ADD_PRODUCT("Add product"),
+    HIRE_EMPLOYEE("Hire a new employee"),
+    SHOW_EMPLOYEES("Show all employees"),
+    SHOW_CUSTOMERS("Show all customers"),
+    SHOW_INFO("Show info and check Salary"),
+    SAVE_FILE("Save as ser-file"),
+    LOAD_FILE("Load from ser-file"),
+    LOG_OUT("Log out"),
+    ;
+
+    String description;
+
+    private EmployerMenu(String description){
+        this.description = description;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+}
