@@ -30,7 +30,7 @@ public class Blacksmith implements Serializable {
     }
 
     public void run(){
-        checkForSavedStaffAccounts();
+        checkForSavedStaffAccountsFile();
 
         firstTimeStartingProgram();
 
@@ -45,7 +45,7 @@ public class Blacksmith implements Serializable {
 
                                 break;
                             case SHOW_CART:
-                                showElementsInArrayList(customer.getCart());
+                                showCustomerCart();
                                 break;
                             case LOG_OUT:
                                 logOut();
@@ -75,7 +75,7 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-
+                                
                                 break;
                             case HIRE_EMPLOYEE:
                                 AccountFactory.AccountType employee = AccountFactory.AccountType.EMPLOYEE;
@@ -110,6 +110,10 @@ public class Blacksmith implements Serializable {
         }while (isRunning);
     }
 
+    private void showCustomerCart() {
+        showElementsInArrayList(customer.getCart());
+    }
+
     private void showCustomers() {
         showElementsInArrayList(customers);
     }
@@ -127,7 +131,7 @@ public class Blacksmith implements Serializable {
         isRunning = false;
     }
 
-    private void checkForSavedStaffAccounts() {
+    private void checkForSavedStaffAccountsFile() {
         if (new File("src/com/company/Files/staffAccounts.ser").isFile()){
             //Implement reading from file TODO
             staff = (ArrayList<StaffAccount>)(FileUtility.loadObject("src/com/company/Files/staffAccounts.ser"));

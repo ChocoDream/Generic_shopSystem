@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Product implements Comparable<Product>{
 
     protected enum Type{
@@ -16,12 +18,18 @@ public class Product implements Comparable<Product>{
     private float price;
     private Type type;
 
+    private ArrayList<Product> products = new ArrayList<>();
+
     private static SortBy sortBy = SortBy.HIGHESTPRICE;
 
     Product(String name, float price, Type type){
         this.name = name;
         this.price = price;
         this.type = type;
+    }
+
+    public void addProduct(Product product){
+        products.add(product);
     }
 
     public float getPrice() {

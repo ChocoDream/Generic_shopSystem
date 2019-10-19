@@ -15,7 +15,7 @@ public class CustomerAccount extends Account {
         cart.add(product1);
     }
 
-    public void addProduct(Product product){
+    public void addProductToCart(Product product){
         cart.add(product);
     }
 
