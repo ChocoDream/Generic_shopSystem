@@ -25,4 +25,16 @@ public class MiscUtility {
             }
         }while (true);
     }
+
+    public static float returnFloatFromString(){
+        String str;
+        do {
+            str = scanner.nextLine();
+            try {
+                return Float.parseFloat(str);
+            } catch (Exception ignored) {
+
+            }
+        }while (true);
+    }
 }

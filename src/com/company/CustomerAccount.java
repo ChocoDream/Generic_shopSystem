@@ -7,6 +7,7 @@ public class CustomerAccount extends Account {
     private ArrayList<Product> cart = new ArrayList<>();
 
     public CustomerAccount(){
+        //TEMPOARY DATA
         Product product1 = new Product(
                 "Träd",
                 39f,

@@ -18,11 +18,13 @@ public class Blacksmith implements Serializable {
     private String companyName = null;
     private boolean isRunning = true;
     private boolean isRunningSubMenu = true;
+
+    //TEMPOARY
     private static CustomerAccount customer = new CustomerAccount();
     private static EmployeeAccount employee = new EmployeeAccount();
     private static EmployerAccount employer = new EmployerAccount();
 
-
+    private Shop shop = new Shop();
     private ArrayList<StaffAccount> staff = new ArrayList<>();
     private ArrayList<CustomerAccount> customers = new ArrayList<>();
 
@@ -45,11 +47,13 @@ public class Blacksmith implements Serializable {
                                 String input;
                                 do {
                                     System.out.println("Showing avaliable wares");
+                                    showElementsInArrayList(shop.getProducts());
+
                                     input = MiscUtility.scanner.nextLine();
                                 }while (!(input.equalsIgnoreCase("return")));
                                 break;
                             case SHOW_CART:
-                                showCustomerCart();
+                                showElementsInArrayList(customer.getCart());
                                 break;
                             case LOG_OUT:
                                 logOut();
@@ -79,7 +83,7 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-
+                                shop.addProduct();
                                 break;
                             case HIRE_EMPLOYEE:
                                 AccountFactory.AccountType employee = AccountFactory.AccountType.EMPLOYEE;
@@ -112,10 +116,6 @@ public class Blacksmith implements Serializable {
             }
             isRunningSubMenu = true;
         }while (isRunning);
-    }
-
-    private void showCustomerCart() {
-        showElementsInArrayList(customer.getCart());
     }
 
     private void logOut() {
