@@ -42,7 +42,11 @@ public class Blacksmith implements Serializable {
                         System.out.println("Welcome Customer!");
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
                             case GO_TO_STORE:
-
+                                String input;
+                                do {
+                                    System.out.println("Showing avaliable wares");
+                                    input = MiscUtility.scanner.nextLine();
+                                }while (!(input.equalsIgnoreCase("return")));
                                 break;
                             case SHOW_CART:
                                 showCustomerCart();
@@ -60,7 +64,7 @@ public class Blacksmith implements Serializable {
 
                                 break;
                             case SHOW_EMPLOYEES:
-                                showEmployees();
+                                showElementsInArrayList(staff);
                                 break;
                             case SHOW_INFO:
                                 employee.showInfo();
@@ -75,17 +79,17 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-                                
+
                                 break;
                             case HIRE_EMPLOYEE:
                                 AccountFactory.AccountType employee = AccountFactory.AccountType.EMPLOYEE;
                                 addAccountWithCondition(employee);
                                 break;
                             case SHOW_EMPLOYEES:
-                                showEmployees();
+                                showElementsInArrayList(staff);
                                 break;
                             case SHOW_CUSTOMERS:
-                                showCustomers();
+                                showElementsInArrayList(customers);
                                 break;
                             case SHOW_INFO:
                                 employer.showInfo();
@@ -112,14 +116,6 @@ public class Blacksmith implements Serializable {
 
     private void showCustomerCart() {
         showElementsInArrayList(customer.getCart());
-    }
-
-    private void showCustomers() {
-        showElementsInArrayList(customers);
-    }
-
-    private void showEmployees() {
-        showElementsInArrayList(staff);
     }
 
     private void logOut() {

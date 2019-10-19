@@ -1,35 +1,23 @@
 package com.company;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Product implements Comparable<Product>{
+public class Product implements Serializable {
 
     protected enum Type{
         AXES,
         SWORDS,
         ARMOR,
     }
-    private enum SortBy{
-        HIGHESTPRICE,
-        LOWESTPRICE,
-    }
 
     private String name;
     private float price;
     private Type type;
 
-    private ArrayList<Product> products = new ArrayList<>();
-
-    private static SortBy sortBy = SortBy.HIGHESTPRICE;
-
     Product(String name, float price, Type type){
         this.name = name;
         this.price = price;
         this.type = type;
-    }
-
-    public void addProduct(Product product){
-        products.add(product);
     }
 
     public float getPrice() {
@@ -39,17 +27,5 @@ public class Product implements Comparable<Product>{
     public String toString() {
         return String.format("%1$s\t%2$f SEK" +
                 "\nType: %3$s", name, price, type);
-    }
-
-    public int compareTo(Product product){
-        switch (sortBy){
-            case HIGHESTPRICE:
-                return (int)-(getPrice() - product.getPrice());
-            case LOWESTPRICE:
-                return (int)(getPrice() - product.getPrice());
-            default:
-                System.out.println("INVALID");
-                return 0;
-        }
     }
 }
