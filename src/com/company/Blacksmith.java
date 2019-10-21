@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.company.Utilities.Generics.showElementsInArrayList;
+
 public class Blacksmith implements Serializable {
 
     //Fields
@@ -148,12 +150,6 @@ public class Blacksmith implements Serializable {
             addAccountWithCondition(AccountFactory.AccountType.EMPLOYER);
             System.out.println("Name of blacksmith");
             companyName = MiscUtility.scanner.nextLine();
-        }
-    }
-
-    private <E> void showElementsInArrayList(ArrayList<E> list){
-        for(E element : list){ //Generic foreach print element in ArrayList
-            System.out.println(element);
         }
     }
 
