@@ -48,7 +48,7 @@ public class Blacksmith implements Serializable {
                             case GO_TO_STORE:
                                 String input;
                                 do {
-                                    showShopProducts();
+                                    shop.showShopProducts();
 
                                     System.out.println("Write name of product to add to cart." +
                                             "\nWrite SORT to change Sorting order" +
@@ -120,13 +120,6 @@ public class Blacksmith implements Serializable {
             }
             isRunningSubMenu = true;
         }while (isRunning);
-    }
-
-    private void showShopProducts() {
-        System.out.println("Showing available wares" +
-                "\nCurrently Sorting by:");
-        showElementsInArrayList(shop.getProducts());
-        System.out.println();
     }
 
     private void logOut() {

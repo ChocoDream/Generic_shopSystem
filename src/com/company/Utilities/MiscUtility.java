@@ -21,7 +21,7 @@ public class MiscUtility {
             try {
                 return Integer.parseInt(str);
             } catch (Exception ignored) {
-
+                System.out.println("ERROR: Not a valid Integer");
             }
         }while (true);
     }
@@ -33,7 +33,7 @@ public class MiscUtility {
             try {
                 return Float.parseFloat(str);
             } catch (Exception ignored) {
-
+                System.out.println("ERROR: Not a valid float");
             }
         }while (true);
     }
