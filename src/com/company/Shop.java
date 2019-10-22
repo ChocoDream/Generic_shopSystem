@@ -6,9 +6,11 @@ import com.company.Utilities.MiscUtility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Shop implements Serializable {
     private ArrayList<Product> products = new ArrayList<>();
+    private Product product;
 
     Shop(){
         //CAN ADD TESTDATA HERE
@@ -20,46 +22,49 @@ public class Shop implements Serializable {
     public void menu(){
         String input;
         do {
-            showShopProducts();
+            Collections.sort(products);
+            showAllProducts();
 
-            System.out.println("Write name of product to add to cart." +
-                    "\nWrite SORT to change Sorting order" +
-                    "\nWrite 'return' to head back to menu");
+            System.out.printf("Write name of product to add to cart." +
+                    "\nWrite SORT to change Sorting order. " +
+                    "\nCurrently sorting by '%s'" +
+                    "\nWrite 'return' to head back to menu\n", Product.getSortBy().description);
             input = MiscUtility.scanner.nextLine();
+
+            if (input.equals("SORT")){
+                changeSortingOrder();
+            }
+            for (Product product : products){
+                if(input.equalsIgnoreCase(product.getName())){
+                    this.product = product;
+                    System.out.println(product.getName() + " has been added to cart\n");
+                    break;
+                }
+            }
 
         }while (!(input.equalsIgnoreCase("return")));
     }
 
-    public Product getProduct(int index){
-        return products.get(0);
-    }
-
-    public boolean returnTrueIfProductExist(String str){
-        for (Product product : products){
-            if (product.getName().equalsIgnoreCase(str)){
-                return true;
-            }
+    private void changeSortingOrder(){
+        if (Product.getSortBy().ordinal() < (Product.SortBy.values().length) -1){ //As far Index is not at the end of the enum. Preventing out of bounds
+            Product.setSortBy(Product.getSortBy().ordinal() + 1);
         }
-        return false;
-    }
-
-    public int getIndexOfProduct(String str){
-        for (int i = 0; i < products.size(); i++){
-            if(products.get(i).getName().equalsIgnoreCase(str)){
-                return i;
-            }
+        else {
+            Product.setSortBy(0); //Reset index back to the first of the enum. Such a simple yet nice way to make a sort.
         }
-        return 0; //Shouldn't do.
     }
 
-    private void showShopProducts() {
-        System.out.println("Showing available wares" +
-                "\nCurrently Sorting by:");
+    public Product addProduct(){
+        return product;
+    }
+
+    private void showAllProducts() {
+        System.out.println("Showing available wares");
         Generics.showElementsInArrayList(products);
         System.out.println();
     }
 
-    public void addProduct(){
+    public void addNewProduct(){
         String input;
         String name;
         float price;
@@ -77,7 +82,8 @@ public class Shop implements Serializable {
             for (Product.Type _type : Product.Type.values()) {
                 typeString += String.format("%s ", _type);
             }
-            System.out.printf("Type of item [%2$s]\n", typeString);
+            System.out.printf("Type of item [%s]\n", typeString);
+
             input = MiscUtility.scanner.nextLine();
             try{
                 type = Product.Type.valueOf(input);

@@ -79,7 +79,7 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-                                shop.addProduct();
+                                shop.addNewProduct();
                                 break;
                             case HIRE_EMPLOYEE:
                                 AccountFactory.AccountType employee = AccountFactory.AccountType.EMPLOYEE;
