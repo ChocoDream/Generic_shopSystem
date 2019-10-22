@@ -46,15 +46,7 @@ public class Blacksmith implements Serializable {
                         System.out.println("Welcome Customer!");
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
                             case GO_TO_STORE:
-                                String input;
-                                do {
-                                    shop.showShopProducts();
-
-                                    System.out.println("Write name of product to add to cart." +
-                                            "\nWrite SORT to change Sorting order" +
-                                            "\nWrite 'return' to head back to menu");
-                                    input = MiscUtility.scanner.nextLine();
-                                }while (!(input.equalsIgnoreCase("return")));
+                                shop.menu();
                                 break;
                             case SHOW_CART:
                                 showElementsInArrayList(customer.getCart());

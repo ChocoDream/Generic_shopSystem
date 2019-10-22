@@ -24,6 +24,10 @@ public class Product implements Serializable {
         return price;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public String toString() {
         return String.format("%1$s\t%2$.2f SEK" +
                 "\nType: %3$s", name, price, type);
