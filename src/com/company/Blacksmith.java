@@ -8,7 +8,6 @@ import com.company.Menu.MainMenu;
 import com.company.Utilities.FileUtility;
 import com.company.Utilities.MiscUtility;
 
-import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,33 +31,33 @@ public class Blacksmith implements Serializable {
     private static EmployeeAccount employee = new EmployeeAccount(10);
     private static EmployerAccount employer = new EmployerAccount(10);
 
-    private Shop shop = new Shop();
+    private SaleManagement saleManagement = new SaleManagement();
     private ArrayList<StaffAccount> staff = new ArrayList<>();
     private ArrayList<CustomerAccount> customers = new ArrayList<>();
 
     Blacksmith(){
         //TESTDATA
-        shop.getProduct(new Product(
+        saleManagement.getProduct(new Product(
                 "Blazing Rod",
                 55.49f,
                 Product.Type.AXES
         ));
-        shop.getProduct(new Product(
+        saleManagement.getProduct(new Product(
                 "Stabby",
                 29.99f,
                 Product.Type.SWORDS
         ));
-        shop.getProduct(new Product(
+        saleManagement.getProduct(new Product(
                 "Sword",
                 19.99f,
                 Product.Type.SWORDS
         ));
-        shop.getProduct(new Product(
+        saleManagement.getProduct(new Product(
                 "Sap",
                 69.99f,
                 Product.Type.ARMOR
         ));
-        shop.getProduct(new Product(
+        saleManagement.getProduct(new Product(
                 "Flush",
                 39.99f,
                 Product.Type.ARMOR
@@ -79,7 +78,7 @@ public class Blacksmith implements Serializable {
                         System.out.println("Welcome Customer!");
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
                             case GO_TO_STORE:
-                                shop.menu(customer); //Wishes to find a way to not having to call a customer.
+                                saleManagement.menu(customer); //Wishes to find a way to not having to call a customer.
                                 break;
                             case SHOW_CART:
                                 showElementsInArrayList(customer.getCart());
@@ -162,7 +161,7 @@ public class Blacksmith implements Serializable {
 
     private void checkForExistingFiles() {
         if ((Files.exists(Paths.get(FILE_DIRECTORY + "/staffAccounts.ser")))
-            && (Files.exists(Paths.get(FILE_DIRECTORY + "/customersAccounts.ser")))){
+            && (Files.exists(Paths.get(FILE_DIRECTORY + "/customerAccounts.ser")))){
             loadFiles();
         }
         else {
@@ -231,6 +230,6 @@ public class Blacksmith implements Serializable {
             input = MiscUtility.scanner.nextLine();
         } while (!input.equalsIgnoreCase("yes"));
 
-        shop.getProduct(product);
+        saleManagement.getProduct(product);
     }
 }

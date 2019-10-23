@@ -6,7 +6,8 @@ public class CustomerAccount extends Account {
 
     private ArrayList<Product> cart = new ArrayList<>();
 
-    public CustomerAccount(){
+    public CustomerAccount(String name){
+        super(name);
         //TEMPOARY DATA
         Product product1 = new Product(
                 "Träd",
@@ -26,7 +27,9 @@ public class CustomerAccount extends Account {
 
     @Override
     public void showInfo() {
-
+        System.out.printf("Showing info for %1$s:\n" +
+                "\tname| %1$s\n" +
+                "\tID| %2$d\n", name, 30);
     }
 
     @Override

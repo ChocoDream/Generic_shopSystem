@@ -3,7 +3,8 @@ package com.company;
 public abstract class StaffAccount extends Account{
     protected int salary;
 
-    StaffAccount(int salary){
+    StaffAccount(String name, int salary){
+        super(name);
         this.salary = salary;
     }
 

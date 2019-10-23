@@ -2,8 +2,8 @@ package com.company;
 
 public class EmployerAccount extends StaffAccount {
 
-    public EmployerAccount(int salary) {
-        super(salary);
+    public EmployerAccount(String name, int salary) {
+        super(name, salary);
     }
 
     @Override

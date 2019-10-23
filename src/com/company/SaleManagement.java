@@ -8,10 +8,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Shop implements Serializable {
+public class SaleManagement implements Serializable {
     private ArrayList<Product> products = new ArrayList<>();
 
-    Shop(){
+    SaleManagement(){
     }
 
     public void menu(CustomerAccount customer){
