@@ -173,13 +173,32 @@ public class Blacksmith implements Serializable {
         customers = (ArrayList<CustomerAccount>)FileUtility.loadObject(FILE_DIRECTORY + "/customerAccounts.ser");
     }
 
-    private void returnToMainMenu() {
-        System.out.println("Logging out...");
-        isRunningSubMenu = false;
+    private void hireStaff(){
+        AccountFactory.AccountType accountType;
+        String name;
+        String input;
+        int salary;
+
+        accountType = setAccountType();
+
+        
     }
 
-    private void exitProgram() {
-        isRunning = false;
+    private AccountFactory.AccountType setAccountType() {
+        String input;
+        do {
+            System.out.println("Employee or Employer?");
+            input = MiscUtility.scanner.nextLine();
+            if(input.toUpperCase().equals(AccountFactory.AccountType.EMPLOYEE)){
+                return AccountFactory.AccountType.EMPLOYEE;
+            }
+            else if(input.toUpperCase().equals(AccountFactory.AccountType.EMPLOYER)){
+                return AccountFactory.AccountType.EMPLOYER;
+            }
+            else {
+                View.getInstance().showErrorMessage("Invalid accountType");
+            }
+        }while (true);
     }
 
     private void addCustomer(AccountFactory.AccountType accountType, String name){
@@ -214,17 +233,17 @@ public class Blacksmith implements Serializable {
             for (Product.Type _type : Product.Type.values()) {
                 typeString += String.format("%s ", _type);
             }
-            System.out.printf("Type of item [%s]\n", typeString);
+            do {
+                System.out.printf("Type of item [%s]\n", typeString);
 
-            input = MiscUtility.scanner.nextLine();
-            try{
-                type = Product.Type.valueOf(input);
-            }
-            catch (Exception ignore){
-                View.getInstance().showErrorMessage(input + " Itemtype does not exist");
-                System.out.println("Starting over from step 1");
-                continue;
-            }
+                input = MiscUtility.scanner.nextLine();
+                try {
+                    type = Product.Type.valueOf(input);
+                    break;
+                } catch (Exception ignore) {
+                    View.getInstance().showErrorMessage(input + " Itemtype does not exist");
+                }
+            }while (true);
 
             product = new Product(name, price, type);
             System.out.printf("Want to add %s? (yes to confirm)\n", product);
@@ -232,5 +251,14 @@ public class Blacksmith implements Serializable {
         } while (!input.equalsIgnoreCase("yes"));
 
         saleManagement.getProduct(product);
+    }
+
+    private void returnToMainMenu() {
+        System.out.println("Logging out...");
+        isRunningSubMenu = false;
+    }
+
+    private void exitProgram() {
+        isRunning = false;
     }
 }
