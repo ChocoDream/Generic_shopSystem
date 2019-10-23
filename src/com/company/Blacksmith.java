@@ -40,9 +40,10 @@ public class Blacksmith implements Serializable {
     }
 
     public void run(){
-        checkForSavedStaffAccountsFile();
+        checkForExistingFiles();
 
-        firstTimeStartingProgram();
+        System.out.println("Name of blacksmith");
+        companyName = MiscUtility.scanner.nextLine();
 
         do{
             System.out.printf("Welcome to the scorching hot %s\n", companyName);
@@ -104,7 +105,7 @@ public class Blacksmith implements Serializable {
                                 saveFilesCheckForExistingFiles();
                                 break;
                             case LOAD_FILE:
-                                loadFilesIfExist();
+                                checkForExistingFiles();
                                 break;
                             case LOG_OUT:
                                 returnToMainMenu();
@@ -133,15 +134,19 @@ public class Blacksmith implements Serializable {
         }
     }
 
-    private void loadFilesIfExist() {
+    private void checkForExistingFiles() {
         if ((Files.exists(Paths.get(FILE_DIRECTORY + "/staffAccounts.ser")))
             && (Files.exists(Paths.get(FILE_DIRECTORY + "/customersAccounts.ser")))){
-            staff = (ArrayList<StaffAccount>) FileUtility.loadObject(FILE_DIRECTORY + "/staffAccounts.ser");
-            customers = (ArrayList<CustomerAccount>)FileUtility.loadObject(FILE_DIRECTORY + "/customerAccounts.ser");
+            loadFiles();
         }
         else {
             System.out.println("File(s) not found");
         }
+    }
+
+    private void loadFiles() {
+        staff = (ArrayList<StaffAccount>) FileUtility.loadObject(FILE_DIRECTORY + "/staffAccounts.ser");
+        customers = (ArrayList<CustomerAccount>)FileUtility.loadObject(FILE_DIRECTORY + "/customerAccounts.ser");
     }
 
     private void returnToMainMenu() {
@@ -153,18 +158,10 @@ public class Blacksmith implements Serializable {
         isRunning = false;
     }
 
-    private void checkForSavedStaffAccountsFile() {
+    private void checkFilesForExistingStaff() {
         if (new File("src/com/company/Files/staffAccounts.ser").isFile()){
             //Implement reading from file TODO
             staff = (ArrayList<StaffAccount>)(FileUtility.loadObject("src/com/company/Files/staffAccounts.ser"));
-        }
-    }
-
-    private void firstTimeStartingProgram() {
-        if (staff.isEmpty() || companyName.isEmpty()){
-            addAccountWithCondition(AccountFactory.AccountType.EMPLOYER);
-            System.out.println("Name of blacksmith");
-            companyName = MiscUtility.scanner.nextLine();
         }
     }
 
