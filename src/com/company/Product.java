@@ -43,7 +43,7 @@ public class Product implements Serializable, Comparable<Product> {
 
     public String toString() {
         return String.format("%1$s\t%2$.2f SEK" +
-                "\nType: %3$s", name, price, type);
+                "\nType: %3$s\n", name, price, type);
     }
 
     public static void setSortBy(int enumIndex) {

@@ -181,7 +181,7 @@ public class Blacksmith implements Serializable {
 
         accountType = setAccountType();
 
-        
+
     }
 
     private AccountFactory.AccountType setAccountType() {
