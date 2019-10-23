@@ -30,12 +30,12 @@ public class SaleManagement implements Serializable {
                 changeSortingOrder();
             }
 
-            checkForCustomer(customer, input);
+            addProductToCustomerCart(customer, input);
 
         }while (!(input.equalsIgnoreCase("return")));
     }
 
-    private void checkForCustomer(CustomerAccount customer, String input) {
+    private void addProductToCustomerCart(CustomerAccount customer, String input) {
         for (Product product : products){
             if(input.equalsIgnoreCase(product.getName())){
                 customer.addProductToCart(product);

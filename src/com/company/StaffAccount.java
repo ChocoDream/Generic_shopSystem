@@ -8,8 +8,14 @@ public abstract class StaffAccount extends Account{
         this.salary = salary;
     }
 
+    public void showInfo() {
+        System.out.printf("Showing info for %1$s:\n" +
+                "\tname : %1$s\n" +
+                "\tID : %2$d\n" +
+                "\tSalary : %3$d", name, 30, salary);
+    }
     @Override
     public String toString() {
-        return String.format("Salary: %d\n", salary);
+        return String.format("N: %1$s | ID: %2$d\n", name, 200);
     }
 }

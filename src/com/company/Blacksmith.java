@@ -27,9 +27,9 @@ public class Blacksmith implements Serializable {
     private boolean isRunningSubMenu = true;
 
     //TEMPOARY
-    private static CustomerAccount customer = new CustomerAccount();
-    private static EmployeeAccount employee = new EmployeeAccount(10);
-    private static EmployerAccount employer = new EmployerAccount(10);
+    private static CustomerAccount customer = new CustomerAccount("aha");
+    private static EmployeeAccount employee = new EmployeeAccount("hej",10);
+    private static EmployerAccount employer = new EmployerAccount("dab", 10);
 
     private SaleManagement saleManagement = new SaleManagement();
     private ArrayList<StaffAccount> staff = new ArrayList<>();
@@ -114,8 +114,7 @@ public class Blacksmith implements Serializable {
                                 addNewProduct();
                                 break;
                             case HIRE_EMPLOYEE:
-                                AccountFactory.AccountType employee = AccountFactory.AccountType.EMPLOYEE;
-                                addAccountWithCondition(employee);
+                                addStaff(AccountFactory.AccountType.EMPLOYEE, "Daniel", 55);
                                 break;
                             case SHOW_EMPLOYEES:
                                 showElementsInArrayList(staff);
@@ -183,15 +182,17 @@ public class Blacksmith implements Serializable {
         isRunning = false;
     }
 
-    private void addAccountWithCondition(AccountFactory.AccountType accountType){
-        Account account = AccountFactory.createAccount(accountType);
+    private void addCustomer(AccountFactory.AccountType accountType, String name){
+        Account account = AccountFactory.createAccount(accountType, name);
         if (account != null){
-            if (accountType == AccountFactory.AccountType.CUSTOMER){ //Checks if accountType is Customer, else staffAccount.
-                customers.add((CustomerAccount)account);
-            }
-            else{
-                staff.add((StaffAccount)account);
-            }
+            customers.add((CustomerAccount)account);
+        }
+    }
+
+    private void addStaff(AccountFactory.AccountType accountType, String name, int salary){
+        Account account = AccountFactory.createAccount(accountType, name, salary);
+        if (account != null){
+            staff.add((StaffAccount)account);
         }
     }
 

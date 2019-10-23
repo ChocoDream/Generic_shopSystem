@@ -7,7 +7,8 @@ import java.util.Comparator;
 public class Generics {
     public static  <E> void showElementsInArrayList(ArrayList<E> list){
         for(E element : list){ //Generic foreach print element in ArrayList
-            System.out.println(element);
+            System.out.print(element);
         }
+        System.out.println();
     }
 }
