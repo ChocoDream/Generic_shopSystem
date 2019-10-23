@@ -37,10 +37,36 @@ public class Blacksmith implements Serializable {
     private ArrayList<CustomerAccount> customers = new ArrayList<>();
 
     Blacksmith(){
+        //TESTDATA
+        shop.getProduct(new Product(
+                "Blazing Rod",
+                55.49f,
+                Product.Type.AXES
+        ));
+        shop.getProduct(new Product(
+                "Stabby",
+                29.99f,
+                Product.Type.SWORDS
+        ));
+        shop.getProduct(new Product(
+                "Sword",
+                19.99f,
+                Product.Type.SWORDS
+        ));
+        shop.getProduct(new Product(
+                "Sap",
+                69.99f,
+                Product.Type.ARMOR
+        ));
+        shop.getProduct(new Product(
+                "Flush",
+                39.99f,
+                Product.Type.ARMOR
+        ));
     }
 
     public void run(){
-        checkForExistingFiles();
+        checkForExistingFiles(); //Check for existing staffAccounts. If found, uses loadFile()
 
         System.out.println("Name of blacksmith");
         companyName = MiscUtility.scanner.nextLine();
@@ -53,13 +79,13 @@ public class Blacksmith implements Serializable {
                         System.out.println("Welcome Customer!");
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
                             case GO_TO_STORE:
-                                shop.menu(customer);
+                                shop.menu(customer); //Wishes to find a way to not having to call a customer.
                                 break;
                             case SHOW_CART:
                                 showElementsInArrayList(customer.getCart());
                                 break;
                             case LOG_OUT:
-                                returnToMainMenu();
+                                returnToMainMenu(); //makes isRunningSubMenu false
                                 break;
                         }
                     }while (isRunningSubMenu);
@@ -68,13 +94,13 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployeeMenu.values())){
                             case ADD_PRODUCT:
-                                shop.addNewProduct();
+                                addNewProduct();
                                 break;
                             case SHOW_EMPLOYEES:
                                 showElementsInArrayList(staff);
                                 break;
                             case SHOW_INFO:
-                                employee.showInfo();
+                                employee.showInfo(); //Using an interface method in Account
                                 break;
                             case LOG_OUT:
                                 returnToMainMenu();
@@ -86,7 +112,7 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-                                shop.addNewProduct();
+                                addNewProduct();
                                 break;
                             case HIRE_EMPLOYEE:
                                 AccountFactory.AccountType employee = AccountFactory.AccountType.EMPLOYEE;
@@ -158,17 +184,10 @@ public class Blacksmith implements Serializable {
         isRunning = false;
     }
 
-    private void checkFilesForExistingStaff() {
-        if (new File("src/com/company/Files/staffAccounts.ser").isFile()){
-            //Implement reading from file TODO
-            staff = (ArrayList<StaffAccount>)(FileUtility.loadObject("src/com/company/Files/staffAccounts.ser"));
-        }
-    }
-
     private void addAccountWithCondition(AccountFactory.AccountType accountType){
         Account account = AccountFactory.createAccount(accountType);
         if (account != null){
-            if (accountType == AccountFactory.AccountType.CUSTOMER){
+            if (accountType == AccountFactory.AccountType.CUSTOMER){ //Checks if accountType is Customer, else staffAccount.
                 customers.add((CustomerAccount)account);
             }
             else{
@@ -177,17 +196,41 @@ public class Blacksmith implements Serializable {
         }
     }
 
-    private void addCustomer(AccountFactory.AccountType accountType){
-        Account account = AccountFactory.createAccount(accountType);
-        if (account != null){
-            customers.add((CustomerAccount)account);
-        }
-    }
+    public void addNewProduct(){
+        String input;
+        String name;
+        float price;
+        Product.Type type;
 
-    private void addStaff(AccountFactory.AccountType accountType){
-        Account account = AccountFactory.createAccount(accountType);
-        if (account != null){
-            staff.add((StaffAccount)account);
-        }
+        Product product = null;
+
+        do {
+            System.out.println("Name of product");
+            name = MiscUtility.scanner.nextLine();
+            System.out.printf("Price of %s(needs a f if using decimals, ex 35.99f..)\n", name);
+            price = MiscUtility.returnFloatFromString();
+
+            String typeString = "";
+            for (Product.Type _type : Product.Type.values()) {
+                typeString += String.format("%s ", _type);
+            }
+            System.out.printf("Type of item [%s]\n", typeString);
+
+            input = MiscUtility.scanner.nextLine();
+            try{
+                type = Product.Type.valueOf(input);
+            }
+            catch (Exception ignore){
+                View.getInstance().showErrorMessage(input + " Itemtype does not exist");
+                System.out.println("Starting over from step 1");
+                continue;
+            }
+
+            product = new Product(name, price, type);
+            System.out.printf("Want to add %s? (yes to confirm)\n", product);
+            input = MiscUtility.scanner.nextLine();
+        } while (!input.equalsIgnoreCase("yes"));
+
+        shop.getProduct(product);
     }
 }

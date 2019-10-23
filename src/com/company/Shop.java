@@ -10,13 +10,8 @@ import java.util.Collections;
 
 public class Shop implements Serializable {
     private ArrayList<Product> products = new ArrayList<>();
-    private Product product;
 
     Shop(){
-        //CAN ADD TESTDATA HERE
-        products.add(new Product("Lance", 49.99f, Product.Type.SWORDS));
-        products.add(new Product("Broadsword", 59.99f, Product.Type.SWORDS));
-        products.add(new Product("Demon Axe", 29.59f, Product.Type.AXES));
     }
 
     public void menu(CustomerAccount customer){
@@ -35,16 +30,19 @@ public class Shop implements Serializable {
                 changeSortingOrder();
             }
 
-            for (Product product : products){
-                if(input.equalsIgnoreCase(product.getName())){
-                    this.product = product;
-                    customer.addProductToCart(addProduct());
-                    System.out.println(product.getName() + " has been added to cart\n");
-                    break;
-                }
-            }
+            checkForCustomer(customer, input);
 
         }while (!(input.equalsIgnoreCase("return")));
+    }
+
+    private void checkForCustomer(CustomerAccount customer, String input) {
+        for (Product product : products){
+            if(input.equalsIgnoreCase(product.getName())){
+                customer.addProductToCart(product);
+                System.out.println(product.getName() + " has been added to cart\n");
+                break;
+            }
+        }
     }
 
     private void changeSortingOrder(){
@@ -56,55 +54,13 @@ public class Shop implements Serializable {
         }
     }
 
-    public Product addProduct(){
-        return product;
+    public void getProduct(Product product){
+        products.add(product);
     }
 
     private void showAllProducts() {
         System.out.println("Showing available wares");
         Generics.showElementsInArrayList(products);
         System.out.println();
-    }
-
-    public void addNewProduct(){
-        String input;
-        String name;
-        float price;
-        Product.Type type;
-
-        Product product = null;
-
-        do {
-            System.out.println("Name of product");
-            name = MiscUtility.scanner.nextLine();
-            System.out.printf("Price of %s(needs a f if using decimals, ex 35.99f..)\n", name);
-            price = MiscUtility.returnFloatFromString();
-
-            String typeString = "";
-            for (Product.Type _type : Product.Type.values()) {
-                typeString += String.format("%s ", _type);
-            }
-            System.out.printf("Type of item [%s]\n", typeString);
-
-            input = MiscUtility.scanner.nextLine();
-            try{
-                type = Product.Type.valueOf(input);
-            }
-            catch (Exception ignore){
-                View.getInstance().showErrorMessage(input + " Itemtype does not exist");
-                System.out.println("Starting over from step 1");
-                continue;
-            }
-
-            product = new Product(name, price, type);
-            System.out.printf("Want to add %s? (yes to confirm)\n", product);
-            input = MiscUtility.scanner.nextLine();
-        } while (!input.equalsIgnoreCase("yes"));
-
-        products.add(product);
-    }
-
-    public ArrayList<Product> getProducts(){
-        return products;
     }
 }
