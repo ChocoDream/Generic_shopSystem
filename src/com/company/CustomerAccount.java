@@ -28,4 +28,9 @@ public class CustomerAccount extends Account {
     public void showInfo() {
 
     }
+
+    @Override
+    public String toString() {
+        return null;
+    }
 }

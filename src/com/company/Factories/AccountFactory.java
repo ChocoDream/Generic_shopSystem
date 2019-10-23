@@ -15,9 +15,9 @@ public class AccountFactory {
             case CUSTOMER:
                 return new CustomerAccount();
             case EMPLOYEE:
-                return new EmployeeAccount();
+                return new EmployeeAccount(3);
             case EMPLOYER:
-                return new EmployerAccount();
+                return new EmployerAccount(2);
             case TEST:
             default:
                 View.getInstance().showErrorMessage("Could not find AccountType: " + accountType);

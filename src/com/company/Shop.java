@@ -19,7 +19,7 @@ public class Shop implements Serializable {
         products.add(new Product("Demon Axe", 29.59f, Product.Type.AXES));
     }
 
-    public void menu(){
+    public void menu(CustomerAccount customer){
         String input;
         do {
             Collections.sort(products);
@@ -34,9 +34,11 @@ public class Shop implements Serializable {
             if (input.equals("SORT")){
                 changeSortingOrder();
             }
+
             for (Product product : products){
                 if(input.equalsIgnoreCase(product.getName())){
                     this.product = product;
+                    customer.addProductToCart(addProduct());
                     System.out.println(product.getName() + " has been added to cart\n");
                     break;
                 }

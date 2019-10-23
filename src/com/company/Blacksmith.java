@@ -10,11 +10,17 @@ import com.company.Utilities.MiscUtility;
 
 import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 import static com.company.Utilities.Generics.showElementsInArrayList;
 
 public class Blacksmith implements Serializable {
+
+    //FILE
+    private static final String FILE_DIRECTORY = "src/com/company/Files";
 
     //Fields
     private String companyName = null;
@@ -23,8 +29,8 @@ public class Blacksmith implements Serializable {
 
     //TEMPOARY
     private static CustomerAccount customer = new CustomerAccount();
-    private static EmployeeAccount employee = new EmployeeAccount();
-    private static EmployerAccount employer = new EmployerAccount();
+    private static EmployeeAccount employee = new EmployeeAccount(10);
+    private static EmployerAccount employer = new EmployerAccount(10);
 
     private Shop shop = new Shop();
     private ArrayList<StaffAccount> staff = new ArrayList<>();
@@ -46,13 +52,13 @@ public class Blacksmith implements Serializable {
                         System.out.println("Welcome Customer!");
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
                             case GO_TO_STORE:
-                                shop.menu();
+                                shop.menu(customer);
                                 break;
                             case SHOW_CART:
                                 showElementsInArrayList(customer.getCart());
                                 break;
                             case LOG_OUT:
-                                logOut();
+                                returnToMainMenu();
                                 break;
                         }
                     }while (isRunningSubMenu);
@@ -61,7 +67,7 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployeeMenu.values())){
                             case ADD_PRODUCT:
-
+                                shop.addNewProduct();
                                 break;
                             case SHOW_EMPLOYEES:
                                 showElementsInArrayList(staff);
@@ -70,7 +76,7 @@ public class Blacksmith implements Serializable {
                                 employee.showInfo();
                                 break;
                             case LOG_OUT:
-                                logOut();
+                                returnToMainMenu();
                                 break;
                         }
                     }while (isRunningSubMenu);
@@ -95,13 +101,13 @@ public class Blacksmith implements Serializable {
                                 employer.showInfo();
                                 break;
                             case SAVE_FILE:
-
+                                saveFilesCheckForExistingFiles();
                                 break;
                             case LOAD_FILE:
-
+                                loadFilesIfExist();
                                 break;
                             case LOG_OUT:
-                                logOut();
+                                returnToMainMenu();
                                 break;
                         }
                     }while (isRunningSubMenu);
@@ -114,7 +120,31 @@ public class Blacksmith implements Serializable {
         }while (isRunning);
     }
 
-    private void logOut() {
+    private void saveFilesCheckForExistingFiles() {
+        if ((Files.exists(Paths.get(FILE_DIRECTORY + "/staffAccounts.ser")))
+            && (Files.exists(Paths.get(FILE_DIRECTORY + "/customersAccounts.ser")))){
+            FileUtility.saveObject(staff, FILE_DIRECTORY + "/staffAccounts.ser", StandardOpenOption.APPEND);
+            FileUtility.saveObject(customers, FILE_DIRECTORY + "/customerAccounts.ser", StandardOpenOption.APPEND);
+        }
+        else {
+            System.out.println("Creating new files");
+            FileUtility.saveObject(staff, FILE_DIRECTORY + "/staffAccounts.ser", StandardOpenOption.CREATE);
+            FileUtility.saveObject(customers, FILE_DIRECTORY + "/customerAccounts.ser", StandardOpenOption.CREATE);
+        }
+    }
+
+    private void loadFilesIfExist() {
+        if ((Files.exists(Paths.get(FILE_DIRECTORY + "/staffAccounts.ser")))
+            && (Files.exists(Paths.get(FILE_DIRECTORY + "/customersAccounts.ser")))){
+            staff = (ArrayList<StaffAccount>) FileUtility.loadObject(FILE_DIRECTORY + "/staffAccounts.ser");
+            customers = (ArrayList<CustomerAccount>)FileUtility.loadObject(FILE_DIRECTORY + "/customerAccounts.ser");
+        }
+        else {
+            System.out.println("File(s) not found");
+        }
+    }
+
+    private void returnToMainMenu() {
         System.out.println("Logging out...");
         isRunningSubMenu = false;
     }
@@ -147,6 +177,20 @@ public class Blacksmith implements Serializable {
             else{
                 staff.add((StaffAccount)account);
             }
+        }
+    }
+
+    private void addCustomer(AccountFactory.AccountType accountType){
+        Account account = AccountFactory.createAccount(accountType);
+        if (account != null){
+            customers.add((CustomerAccount)account);
+        }
+    }
+
+    private void addStaff(AccountFactory.AccountType accountType){
+        Account account = AccountFactory.createAccount(accountType);
+        if (account != null){
+            staff.add((StaffAccount)account);
         }
     }
 }
