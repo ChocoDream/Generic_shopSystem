@@ -8,13 +8,6 @@ public class CustomerAccount extends Account {
 
     public CustomerAccount(String name){
         super(name);
-        //TEMPOARY DATA
-        Product product1 = new Product(
-                "Träd",
-                39f,
-                Product.Type.AXES
-        );
-        cart.add(product1);
     }
 
     public void addProductToCart(Product product){
@@ -34,6 +27,6 @@ public class CustomerAccount extends Account {
 
     @Override
     public String toString() {
-        return null;
+        return name;
     }
 }

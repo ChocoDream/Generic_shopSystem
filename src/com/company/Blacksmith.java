@@ -15,6 +15,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 import static com.company.Utilities.Generics.showElementsInArrayList;
+import static com.company.Utilities.Generics.showElementsInArrayListWithIndex;
 
 public class Blacksmith implements Serializable {
 
@@ -76,6 +77,7 @@ public class Blacksmith implements Serializable {
                 case GOTO_CUSTOMER:
                     do {
                         System.out.println("Welcome Customer!");
+                        createCustomer();
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
                             case GO_TO_STORE:
                                 saleManagement.menu(customer); //Wishes to find a way to not having to call a customer.
@@ -96,7 +98,7 @@ public class Blacksmith implements Serializable {
                                 addNewProduct();
                                 break;
                             case SHOW_EMPLOYEES:
-                                showElementsInArrayList(staff);
+                                showElementsInArrayListWithIndex(staff);
                                 break;
                             case SHOW_INFO:
                                 employee.showInfo(); //Using an interface method in Account
@@ -114,13 +116,13 @@ public class Blacksmith implements Serializable {
                                 addNewProduct();
                                 break;
                             case HIRE_EMPLOYEE:
-                                addStaff(AccountFactory.AccountType.EMPLOYEE, "Daniel", 55);
+                                hireStaff();
                                 break;
                             case SHOW_EMPLOYEES:
-                                showElementsInArrayList(staff);
+                                showElementsInArrayListWithIndex(staff);
                                 break;
                             case SHOW_CUSTOMERS:
-                                showElementsInArrayList(customers);
+                                showElementsInArrayListWithIndex(customers);
                                 break;
                             case SHOW_INFO:
                                 employer.showInfo();
@@ -176,18 +178,31 @@ public class Blacksmith implements Serializable {
     private void hireStaff(){
         AccountFactory.AccountType accountType;
         String name;
-        String input;
         int salary;
 
+        System.out.println("Employee or Employer?");
         accountType = setAccountType();
+        name = setName();
+        salary = setSalary();
 
+        addStaffToList(accountType, name, salary);
+    }
 
+    private int setSalary() {
+        System.out.println("Salary of person?");
+        int salary = MiscUtility.returnIntegerFromString();
+        return salary;
+    }
+
+    private String setName() {
+        System.out.println("Name of person?");
+        String name = MiscUtility.scanner.nextLine();
+        return name;
     }
 
     private AccountFactory.AccountType setAccountType() {
         String input;
         do {
-            System.out.println("Employee or Employer?");
             input = MiscUtility.scanner.nextLine();
             if(input.toUpperCase().equals(AccountFactory.AccountType.EMPLOYEE)){
                 return AccountFactory.AccountType.EMPLOYEE;
@@ -201,17 +216,27 @@ public class Blacksmith implements Serializable {
         }while (true);
     }
 
-    private void addCustomer(AccountFactory.AccountType accountType, String name){
-        Account account = AccountFactory.createAccount(accountType, name);
-        if (account != null){
-            customers.add((CustomerAccount)account);
-        }
-    }
-
-    private void addStaff(AccountFactory.AccountType accountType, String name, int salary){
+    private void addStaffToList(AccountFactory.AccountType accountType, String name, int salary){
         Account account = AccountFactory.createAccount(accountType, name, salary);
         if (account != null){
             staff.add((StaffAccount)account);
+        }
+    }
+
+    private void createCustomer(){
+        AccountFactory.AccountType accountType = AccountFactory.AccountType.CUSTOMER;
+        String name;
+
+        System.out.println("What's your name, customer?");
+        name = MiscUtility.scanner.nextLine();
+
+        addCustomerToList(accountType, name);
+    }
+
+    private void addCustomerToList(AccountFactory.AccountType accountType, String name){
+        Account account = AccountFactory.createAccount(accountType, name);
+        if (account != null){
+            customers.add((CustomerAccount)account);
         }
     }
 
