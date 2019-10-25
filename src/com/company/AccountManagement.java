@@ -19,7 +19,7 @@ public class AccountManagement implements Serializable {
         name = setName();
         salary = setSalary();
 
-        StaffAccount staffAccount = (StaffAccount)AccountFactory.createAccount(accountType, name, salary);
+        StaffAccount staffAccount = (StaffAccount)AccountFactory.createAccount(accountType, name, salary, generateID());
         return staffAccount;
     }
 
@@ -30,7 +30,7 @@ public class AccountManagement implements Serializable {
         System.out.println("What's your name, customer?");
         name = MiscUtility.scanner.nextLine();
 
-        CustomerAccount customerAccount = (CustomerAccount)AccountFactory.createAccount(accountType, name);
+        CustomerAccount customerAccount = (CustomerAccount)AccountFactory.createAccount(accountType, name, 5515);
         return customerAccount;
     }
 
@@ -60,5 +60,9 @@ public class AccountManagement implements Serializable {
                 View.getInstance().showErrorMessage("Invalid accountType");
             }
         }while (true);
+    }
+
+    private static int generateID(){
+        return MiscUtility.generateID(4); //Length of ID
     }
 }

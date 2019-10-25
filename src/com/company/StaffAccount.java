@@ -3,8 +3,8 @@ package com.company;
 public abstract class StaffAccount extends Account{
     protected int salary;
 
-    StaffAccount(String name, int salary){
-        super(name);
+    StaffAccount(String name, int salary, int ID){
+        super(name, ID);
         this.salary = salary;
     }
 
@@ -16,6 +16,6 @@ public abstract class StaffAccount extends Account{
     }
     @Override
     public String toString() {
-        return String.format("Name: %1$s | ID: %2$d\n", name, 200);
+        return String.format("Name: %1$s | ID: %2$d", name, ID);
     }
 }

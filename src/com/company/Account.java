@@ -8,20 +8,12 @@ public abstract class Account implements Serializable {
     protected String name;
     protected int ID;
 
-    Account(String name){
+    Account(String name, int ID){
         this.name = name;
-        generateID();
+        this.ID = ID;
     }
 
     public abstract void showInfo();
 
     public abstract String toString();
-
-    public int getID() {
-        return ID;
-    }
-
-    private void generateID(){
-        this.ID = MiscUtility.generateID(4); //Length of ID
-    }
 }

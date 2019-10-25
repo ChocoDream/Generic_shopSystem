@@ -6,8 +6,8 @@ public class CustomerAccount extends Account {
 
     private ArrayList<Product> cart = new ArrayList<>();
 
-    public CustomerAccount(String name){
-        super(name);
+    public CustomerAccount(String name, int ID){
+        super(name, ID);
     }
 
     public void addProductToCart(Product product){

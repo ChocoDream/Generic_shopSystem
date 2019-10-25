@@ -10,22 +10,22 @@ public class AccountFactory {
         TEST,
     }
 
-    public static Account createAccount(AccountType accountType, String name){
+    public static Account createAccount(AccountType accountType, String name, int ID){
         switch (accountType){
             case CUSTOMER:
-                return new CustomerAccount(name);
+                return new CustomerAccount(name, ID);
             case TEST:
             default:
                 View.getInstance().showErrorMessage("Could not find AccountType: " + accountType);
                 return null;
         }
     }
-    public static Account createAccount(AccountType accountType, String name, int salary){
+    public static Account createAccount(AccountType accountType, String name, int salary, int ID){
         switch (accountType){
             case EMPLOYEE:
-                return new EmployeeAccount(name, salary);
+                return new EmployeeAccount(name, salary, ID);
             case EMPLOYER:
-                return new EmployerAccount(name, salary);
+                return new EmployerAccount(name, salary, ID);
             case TEST:
             default:
                 View.getInstance().showErrorMessage("Could not find AccountType: " + accountType);

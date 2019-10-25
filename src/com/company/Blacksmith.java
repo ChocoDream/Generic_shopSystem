@@ -1,6 +1,5 @@
 package com.company;
 
-import com.company.Factories.AccountFactory;
 import com.company.Menu.CustomerMenu;
 import com.company.Menu.EmployeeMenu;
 import com.company.Menu.EmployerMenu;
@@ -29,9 +28,9 @@ public class Blacksmith implements Serializable {
     private boolean isRunningSubMenu = true;
 
     //TEMPOARY
-    private static CustomerAccount customer = new CustomerAccount("aha");
-    private static EmployeeAccount employee = new EmployeeAccount("hej",10);
-    private static EmployerAccount employer = new EmployerAccount("dab", 10);
+    private static CustomerAccount testCustomer = new CustomerAccount("aha", 4320);
+    private static EmployeeAccount employee = new EmployeeAccount("hej",10, 3540);
+    private static EmployerAccount employer = new EmployerAccount("dab", 10, 3320);
 
     private SaleManagement saleManagement = new SaleManagement();
     private ArrayList<StaffAccount> staff = new ArrayList<>();
@@ -64,6 +63,8 @@ public class Blacksmith implements Serializable {
                 39.99f,
                 Product.Type.ARMOR
         ));
+
+        customers.add(testCustomer);
     }
 
     public void run(){
@@ -74,17 +75,17 @@ public class Blacksmith implements Serializable {
 
         do{
             System.out.printf("Welcome to the scorching hot %s\n", companyName);
-            switch (View.getInstance().showMenuAndGetChoice(MainMenu.values())){
+            switch (View.getInstance().showMenuAndGetChoice(MainMenu.values())) {
                 case GOTO_CUSTOMER:
-                    Generics.addElementToList(customers, AccountManagement.newCustomer());
+                    int index = askIfCustomerNewAndGetCustomerIndex(); //Index of customer. Uses ID to find customer.
                     do {
-                        System.out.println("Welcome Customer!");
+                        System.out.printf("Welcome %s!\n", customers.get(index));
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
                             case GO_TO_STORE:
-                                saleManagement.menu(customer); //Wishes to find a way to not having to call a customer.
+                                saleManagement.menu(customers.get(index));
                                 break;
                             case SHOW_CART:
-                                showElementsInArrayList(customer.getCart());
+                                showElementsInArrayList(customers.get(index).getCart());
                                 break;
                             case LOG_OUT:
                                 returnToMainMenu(); //makes isRunningSubMenu false
@@ -146,6 +147,31 @@ public class Blacksmith implements Serializable {
             }
             isRunningSubMenu = true;
         }while (isRunning); //continues to run until exitProgram is makes isRUnning to false. Main Menu
+    }
+
+    private int askIfCustomerNewAndGetCustomerIndex() {
+        while (true) {
+            String input;
+            System.out.println("Are you a new Customer? (yes/no)");
+            input = MiscUtility.scanner.nextLine();
+            if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
+                Generics.addElementToList(customers, AccountManagement.newCustomer());
+                return (customers.size() - 1);
+            } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")){
+                System.out.println("Enter ID");
+                int idInput = MiscUtility.returnIntegerFromString();
+                for (int i = 0; i < customers.size(); i++){
+                    if (customers.get(i).ID == idInput){
+                        System.out.println("Customer found!");
+                        return i;
+                    }
+                }
+                    System.out.println("Customer not found");
+            }
+            else{
+                System.out.println("Invalid input");
+            }
+        }
     }
 
     private void saveFilesCheckForExistingFiles() {
