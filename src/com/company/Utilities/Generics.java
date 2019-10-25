@@ -18,4 +18,11 @@ public class Generics {
         }
         System.out.println();
     }
+
+    public static <E> ArrayList<E> addElementToList(ArrayList<E> list, E element){
+        if (element != null){
+            list.add(element);   //Add element to list if element ain't empty, else return same list without a new element added.
+        }
+        return list;
+    }
 }

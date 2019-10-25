@@ -16,6 +16,6 @@ public abstract class StaffAccount extends Account{
     }
     @Override
     public String toString() {
-        return String.format("N: %1$s | ID: %2$d\n", name, 200);
+        return String.format("Name: %1$s | ID: %2$d\n", name, 200);
     }
 }
