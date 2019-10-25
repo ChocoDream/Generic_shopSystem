@@ -18,7 +18,7 @@ public class SaleManagement implements Serializable {
         String input;
         do {
             Collections.sort(products);
-            showAllProducts();
+            showAllProducts(); //Show all products, using generic to print them out
 
             System.out.printf("Write name of product to add to cart." +
                     "\nWrite SORT to change Sorting order. " +
@@ -38,7 +38,7 @@ public class SaleManagement implements Serializable {
     private void addProductToCustomerCart(CustomerAccount customer, String input) {
         for (Product product : products){
             if(input.equalsIgnoreCase(product.getName())){
-                customer.addProductToCart(product);
+                customer.addProductToCart(product); //sends product to customer where it gets added to customer's cart using a method there.
                 System.out.println(product.getName() + " has been added to cart\n");
                 break;
             }
@@ -47,14 +47,14 @@ public class SaleManagement implements Serializable {
 
     private void changeSortingOrder(){
         if (Product.getSortBy().ordinal() < (Product.SortBy.values().length) -1){ //As far Index is not at the end of the enum. Preventing out of bounds
-            Product.setSortBy(Product.getSortBy().ordinal() + 1);
+            Product.setSortBy(Product.getSortBy().ordinal() + 1); //Moves index by 1
         }
         else {
             Product.setSortBy(0); //Reset index back to the first of the enum. Such a simple yet nice way to make a sort.
         }
     }
 
-    public void getProduct(Product product){
+    public void addProduct(Product product){
         products.add(product);
     }
 

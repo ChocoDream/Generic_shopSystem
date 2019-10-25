@@ -39,27 +39,27 @@ public class Blacksmith implements Serializable {
 
     Blacksmith(){
         //TESTDATA
-        saleManagement.getProduct(new Product(
+        saleManagement.addProduct(new Product(
                 "Blazing Rod",
                 55.49f,
                 Product.Type.AXES
         ));
-        saleManagement.getProduct(new Product(
+        saleManagement.addProduct(new Product(
                 "Stabby",
                 29.99f,
                 Product.Type.SWORDS
         ));
-        saleManagement.getProduct(new Product(
+        saleManagement.addProduct(new Product(
                 "Sword",
                 19.99f,
                 Product.Type.SWORDS
         ));
-        saleManagement.getProduct(new Product(
+        saleManagement.addProduct(new Product(
                 "Sap",
                 69.99f,
                 Product.Type.ARMOR
         ));
-        saleManagement.getProduct(new Product(
+        saleManagement.addProduct(new Product(
                 "Flush",
                 39.99f,
                 Product.Type.ARMOR
@@ -76,9 +76,9 @@ public class Blacksmith implements Serializable {
             System.out.printf("Welcome to the scorching hot %s\n", companyName);
             switch (View.getInstance().showMenuAndGetChoice(MainMenu.values())){
                 case GOTO_CUSTOMER:
+                    Generics.addElementToList(customers, AccountManagement.newCustomer());
                     do {
                         System.out.println("Welcome Customer!");
-                        Generics.addElementToList(customers, AccountManagement.newCustomer());
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
                             case GO_TO_STORE:
                                 saleManagement.menu(customer); //Wishes to find a way to not having to call a customer.
@@ -90,13 +90,13 @@ public class Blacksmith implements Serializable {
                                 returnToMainMenu(); //makes isRunningSubMenu false
                                 break;
                         }
-                    }while (isRunningSubMenu);
+                    }while (isRunningSubMenu); //submenu
                     break;
                 case GOTO_EMPLOYEE:
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployeeMenu.values())){
                             case ADD_PRODUCT:
-                                addNewProduct();
+                                saleManagement.addProduct(ProductManagement.createProduct());
                                 break;
                             case SHOW_EMPLOYEES:
                                 showElementsInArrayListWithIndex(staff);
@@ -108,13 +108,13 @@ public class Blacksmith implements Serializable {
                                 returnToMainMenu();
                                 break;
                         }
-                    }while (isRunningSubMenu);
+                    }while (isRunningSubMenu); //Submenu
                     break;
                 case GOTO_EMPLOYER:
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-                                addNewProduct();
+                                saleManagement.addProduct(ProductManagement.createProduct());
                                 break;
                             case HIRE_EMPLOYEE:
                                 Generics.addElementToList(staff, AccountManagement.hireStaff());
@@ -138,14 +138,14 @@ public class Blacksmith implements Serializable {
                                 returnToMainMenu();
                                 break;
                         }
-                    }while (isRunningSubMenu);
+                    }while (isRunningSubMenu); //submenu
                     break;
                 case EXIT:
                     exitProgram();
                     break;
             }
             isRunningSubMenu = true;
-        }while (isRunning);
+        }while (isRunning); //continues to run until exitProgram is makes isRUnning to false. Main Menu
     }
 
     private void saveFilesCheckForExistingFiles() {
@@ -176,43 +176,6 @@ public class Blacksmith implements Serializable {
         customers = (ArrayList<CustomerAccount>)FileUtility.loadObject(FILE_DIRECTORY + "/customerAccounts.ser");
     }
 
-    public void addNewProduct(){
-        String input;
-        String name;
-        float price;
-        Product.Type type;
-
-        Product product = null;
-
-        do {
-            System.out.println("Name of product");
-            name = MiscUtility.scanner.nextLine();
-            System.out.printf("Price of %s(needs a f if using decimals, ex 35.99f..)\n", name);
-            price = MiscUtility.returnFloatFromString();
-
-            String typeString = "";
-            for (Product.Type _type : Product.Type.values()) {
-                typeString += String.format("%s ", _type);
-            }
-            do {
-                System.out.printf("Type of item [%s]\n", typeString);
-
-                input = MiscUtility.scanner.nextLine();
-                try {
-                    type = Product.Type.valueOf(input);
-                    break;
-                } catch (Exception ignore) {
-                    View.getInstance().showErrorMessage(input + " Itemtype does not exist");
-                }
-            }while (true);
-
-            product = new Product(name, price, type);
-            System.out.printf("Want to add %s? (yes to confirm)\n", product);
-            input = MiscUtility.scanner.nextLine();
-        } while (!input.equalsIgnoreCase("yes"));
-
-        saleManagement.getProduct(product);
-    }
 
     private void returnToMainMenu() {
         System.out.println("Logging out...");

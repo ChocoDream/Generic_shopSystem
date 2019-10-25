@@ -8,7 +8,7 @@ public class MiscUtility {
     public static Random rnd = new Random();
     public static Scanner scanner = new Scanner(System.in);
 
-    public static int generateRandomID(int length){
+    public static int generateID(int length){
         String str = ""; //length tells how long the ID should be. etc 4 numbers long equals length = 4
         for (int i = 0; i < length; i++){
             str += rnd.nextInt(10);

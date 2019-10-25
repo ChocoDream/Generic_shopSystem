@@ -4,7 +4,6 @@ import com.company.Factories.AccountFactory;
 import com.company.Utilities.MiscUtility;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class AccountManagement implements Serializable {
     //Taking care of staff hiring and new customer process. USed to have this in blacksmith program but decided to move it into a seperate class.
