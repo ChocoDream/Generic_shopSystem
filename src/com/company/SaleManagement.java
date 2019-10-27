@@ -63,4 +63,8 @@ public class SaleManagement implements Serializable {
         Generics.showElementsInArrayList(products);
         System.out.println();
     }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
 }

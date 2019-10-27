@@ -12,11 +12,14 @@ public class AccountManagement implements Serializable {
     //Taking care of staff hiring and new customer process. USed to have this in blacksmith program but decided to move it into a seperate class.
     //The result resulted in a much cleaner Code strucutre. Win win I say.
 
+    //STATIC FINAL FIELDS
+    private static final int lengthOfID = 4;
+
     public static StaffAccount newStaff(){
         AccountFactory.AccountType accountType;
         String name;
         int salary;
-        int ID = generateID();
+        int ID = MiscUtility.generateID(lengthOfID);
 
         System.out.println("Employee or Employer?");
         accountType = setStaffAccountType();
@@ -32,7 +35,7 @@ public class AccountManagement implements Serializable {
         AccountFactory.AccountType accountType = AccountFactory.AccountType.EMPLOYER;
         String name;
         int salary;
-        int ID = generateID();
+        int ID = MiscUtility.generateID(lengthOfID);
 
         System.out.println("Adding Employer");
         name = setName();
@@ -46,7 +49,7 @@ public class AccountManagement implements Serializable {
     public static CustomerAccount newCustomer(){
         AccountFactory.AccountType accountType = AccountFactory.AccountType.CUSTOMER;
         String name;
-        int ID = generateID();
+        int ID = MiscUtility.generateID(lengthOfID);
 
         name = setName();
         System.out.println("Your ID is " + ID);
@@ -129,9 +132,5 @@ public class AccountManagement implements Serializable {
             }
             System.out.println("Staff not found");
         }
-    }
-
-    private static int generateID(){
-        return MiscUtility.generateID(4); //Length of ID
     }
 }

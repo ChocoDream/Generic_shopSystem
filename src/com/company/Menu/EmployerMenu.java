@@ -8,8 +8,8 @@ public enum EmployerMenu implements DefineMenu {
     SHOW_EMPLOYEES("Show all employees"),
     SHOW_CUSTOMERS("Show all customers"),
     SHOW_INFO("Show info and check Salary"),
-    SAVE_FILE("Save as ser-file"),
-    LOAD_FILE("Load from ser-file"),
+    SAVE_FILE("Save Files"),
+    LOAD_FILE("Load Files"),
     LOG_OUT("Log out"),
     ;
 

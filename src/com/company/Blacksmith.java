@@ -10,10 +10,9 @@ import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
 
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.company.Utilities.Generics.showElementsInArrayList;
 import static com.company.Utilities.Generics.showElementsInArrayListWithIndex;
@@ -21,18 +20,13 @@ import static com.company.Utilities.Generics.showElementsInArrayListWithIndex;
 public class Blacksmith implements Serializable {
 
     //FILE
-    private static final String FILE_DIRECTORY = "src/com/company/Files";
+    private static final String FILE_DIRECTORY = "src/com/company/Files/";
 
     //Fields
     private String companyName = null;
     private boolean isRunning = true;
     private boolean isRunningSubMenu = true;
     private static int index;
-
-    //TEMPOARY
-    private static CustomerAccount testCustomer = new CustomerAccount("aha", 4320);
-    private static EmployeeAccount employee = new EmployeeAccount("hej",10, 3540);
-    private static EmployerAccount employer = new EmployerAccount("dab", 10, 3320);
 
     private SaleManagement saleManagement = new SaleManagement();
     private ArrayList<StaffAccount> staff = new ArrayList<>();
@@ -65,15 +59,10 @@ public class Blacksmith implements Serializable {
                 39.99f,
                 Product.Type.ARMOR
         ));
-
-        customers.add(testCustomer);
     }
 
     public void run(){
-        checkForExistingFiles(); //Check for existing staffAccounts. If found, uses loadFile()
-
-        System.out.println("Name of blacksmith");
-        companyName = MiscUtility.scanner.nextLine();
+        firstTimeStartingProgram();
 
         do{
             System.out.printf("Welcome to the scorching hot %s\n", companyName);
@@ -140,10 +129,21 @@ public class Blacksmith implements Serializable {
                                 staff.get(index).showInfo();
                                 break;
                             case SAVE_FILE:
-                                saveFilesCheckForExistingFiles();
+                                if(FileUtility.fileExists(FILE_DIRECTORY + "staffAccounts.ser")){
+                                    FileUtility.saveObject(staff, FILE_DIRECTORY, StandardOpenOption.APPEND);
+                                }
+                                else {
+                                    System.out.println("Creating new files");
+                                    FileUtility.saveObject(staff, FILE_DIRECTORY, StandardOpenOption.CREATE);
+                                }
                                 break;
                             case LOAD_FILE:
-                                checkForExistingFiles();
+                                if(FileUtility.fileExists(FILE_DIRECTORY + "staffAccounts.ser")){
+                                    staff = (ArrayList<StaffAccount>)FileUtility.loadObject(FILE_DIRECTORY + "/staffAccounts.ser");
+                                }
+                                else {
+                                    System.out.println("No files found");
+                                }
                                 break;
                             case LOG_OUT:
                                 returnToMainMenu();
@@ -159,35 +159,45 @@ public class Blacksmith implements Serializable {
         }while (isRunning); //continues to run until exitProgram is makes isRUnning to false. Main Menu
     }
 
-    private void saveFilesCheckForExistingFiles() {
-        if ((Files.exists(Paths.get(FILE_DIRECTORY + "/staffAccounts.ser")))
-            && (Files.exists(Paths.get(FILE_DIRECTORY + "/customersAccounts.ser")))){
-            FileUtility.saveObject(staff, FILE_DIRECTORY + "/staffAccounts.ser", StandardOpenOption.APPEND);
-            FileUtility.saveObject(customers, FILE_DIRECTORY + "/customerAccounts.ser", StandardOpenOption.APPEND);
+    private void firstTimeStartingProgram(){
+        checkForExistingStaffFile(FILE_DIRECTORY + "staffAccounts.ser");
+
+        checkForExistingCustomerFile(FILE_DIRECTORY + "customerAccounts.ser");
+
+        checkForExistingBlacksmithFile(FILE_DIRECTORY + "BlacksmithData.txt");
+    }
+
+    private void checkForExistingBlacksmithFile(String path) {
+        if (FileUtility.fileExists(path)) {
+            List<String> rows = FileUtility.loadText(path);
+
+            for (String row : rows) {
+                String[] parts = row.split(":");
+                companyName = parts[1];
+            }
         }
         else {
-            System.out.println("Creating new files");
-            FileUtility.saveObject(staff, FILE_DIRECTORY + "/staffAccounts.ser", StandardOpenOption.CREATE);
-            FileUtility.saveObject(customers, FILE_DIRECTORY + "/customerAccounts.ser", StandardOpenOption.CREATE);
+            System.out.printf("No %s found\n", path); //If no blacksmithData exist
+            System.out.println("Name of blacksmith");
+            companyName = MiscUtility.scanner.nextLine();
         }
     }
 
-    private void checkForExistingFiles() {
-        if ((Files.exists(Paths.get(FILE_DIRECTORY + "/staffAccounts.ser")))
-            && (Files.exists(Paths.get(FILE_DIRECTORY + "/customerAccounts.ser")))){
-            loadFiles();
+    private void checkForExistingStaffFile(String path) {
+        if (FileUtility.fileExists(path)){ //If there exist staffAccounts
+            staff = (ArrayList<StaffAccount>)FileUtility.loadObject(path);
         }
         else {
-            System.out.println("Not existing data found");
+            System.out.printf("No %s found!\n", path); //Assumes you're the employer
             Generics.addElementToList(staff, AccountManagement.newEmployer());
         }
     }
 
-    private void loadFiles() {
-        staff = (ArrayList<StaffAccount>) FileUtility.loadObject(FILE_DIRECTORY + "/staffAccounts.ser");
-        customers = (ArrayList<CustomerAccount>)FileUtility.loadObject(FILE_DIRECTORY + "/customerAccounts.ser");
+    private void checkForExistingCustomerFile(String path) {
+        if (FileUtility.fileExists(path)){ //If there exist staffAccounts
+            customers = (ArrayList<CustomerAccount>)FileUtility.loadObject(path);
+        }
     }
-
 
     private void returnToMainMenu() {
         System.out.println("Logging out...");

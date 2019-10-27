@@ -14,7 +14,7 @@ public class Generics {
     public static  <E> void showElementsInArrayListWithIndex(ArrayList<E> list){
         int index = 1;
         for(E element : list){ //Generic foreach print element with index in ArrayList
-            System.out.printf("%1$s.\t" + element + "\n", index++);
+            System.out.printf("%1$d.\t%2$s\n", index++, element);
         }
         System.out.println();
     }

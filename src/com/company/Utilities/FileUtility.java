@@ -1,11 +1,15 @@
 package com.company.Utilities;
 
+import com.company.Blacksmith;
+import com.company.Factories.AccountFactory;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileUtility {
@@ -50,5 +54,9 @@ public class FileUtility {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean fileExists(String path){
+        return Files.exists(Paths.get( path));
     }
 }
