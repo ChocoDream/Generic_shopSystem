@@ -26,6 +26,16 @@ public class Generics {
         return list;
     }
 
+    public static <E> ArrayList<E> removeElementInList(ArrayList<E> list, int index){
+        try {
+            list.remove(index);
+        }
+        catch (Exception ignored){
+
+        }
+        return list;
+    }
+
     public static <E> void saveFile(ArrayList<E> list, String path){
         if (!list.isEmpty()) {
             if (path.endsWith("ser")) {

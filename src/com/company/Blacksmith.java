@@ -10,12 +10,8 @@ import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
 
 import java.io.Serializable;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.company.Utilities.Generics.showElementsInArrayList;
-import static com.company.Utilities.Generics.showElementsInArrayListWithIndex;
 
 public class Blacksmith implements Serializable {
 
@@ -28,39 +24,13 @@ public class Blacksmith implements Serializable {
     private boolean isRunningSubMenu = true;
     private static int index;
 
+    //Classes and Arraylists
     private SaleManagement saleManagement = new SaleManagement();
     private ProductManagement productManagement = new ProductManagement();
     private ArrayList<StaffAccount> staff = new ArrayList<>();
     private ArrayList<CustomerAccount> customers = new ArrayList<>();
 
     Blacksmith(){
-        //TESTDATA
-        productManagement.addProduct(new Product(
-                "Blazing Rod",
-                55.49f,
-                Product.Type.AXES
-        ));
-        productManagement.addProduct(new Product(
-                "Stabby",
-                29.99f,
-                Product.Type.SWORDS
-        ));
-        productManagement.addProduct(new Product(
-                "Sword",
-                19.99f,
-                Product.Type.SWORDS
-        ));
-        productManagement.addProduct(new Product(
-                "Sap",
-                69.99f,
-                Product.Type.ARMOR
-        ));
-        productManagement.addProduct(new Product(
-                "Flush",
-                39.99f,
-                Product.Type.ARMOR
-        ));
-        saleManagement.setProducts(productManagement.getProducts());
     }
 
     public void run(){
@@ -78,13 +48,14 @@ public class Blacksmith implements Serializable {
                                 saleManagement.menu(customers.get(index));
                                 break;
                             case SHOW_CART:
-                                showElementsInArrayList(customers.get(index).getCart());
+                                Generics.showElementsInArrayList(customers.get(index).getCart());
                                 break;
                             case LOG_OUT:
-                                returnToMainMenu(); //makes isRunningSubMenu false
+                                returnToMainMenu(); //set isRunningSubMenu to false
                                 break;
                         }
                     }while (isRunningSubMenu); //submenu
+                    Generics.saveFile(customers, FILE_DIRECTORY + "customerAccounts.ser"); //saves customer to customerAccounts.ser
                     break;
                 case GOTO_EMPLOYEE:
                     index = AccountManagement.getStaffIndexByID(staff, AccountFactory.AccountType.EMPLOYEE);
@@ -94,11 +65,10 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployeeMenu.values())){
                             case ADD_PRODUCT:
-                                productManagement.createProduct();
-                                saleManagement.setProducts(productManagement.getProducts());
+
                                 break;
                             case SHOW_EMPLOYEES:
-                                showElementsInArrayListWithIndex(staff);
+                                Generics.showElementsInArrayListWithIndex(staff);
                                 break;
                             case SHOW_INFO:
                                 staff.get(index).showInfo(); //Using an interface method in Account
@@ -117,17 +87,17 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-                                productManagement.createProduct();
-                                saleManagement.setProducts(productManagement.getProducts());
+                                productManagement.createProduct(); //creates a product
+                                saleManagement.setProducts(productManagement.getProducts()); //gets all products from saleManagement to productManagement
                                 break;
                             case HIRE_EMPLOYEE:
                                 Generics.addElementToList(staff, AccountManagement.newStaff());
                                 break;
                             case SHOW_EMPLOYEES:
-                                showElementsInArrayListWithIndex(staff);
+                                Generics.showElementsInArrayListWithIndex(staff);
                                 break;
                             case SHOW_CUSTOMERS:
-                                showElementsInArrayListWithIndex(customers);
+                                Generics.showElementsInArrayListWithIndex(customers);
                                 break;
                             case SHOW_INFO:
                                 staff.get(index).showInfo();
@@ -139,6 +109,8 @@ public class Blacksmith implements Serializable {
                                 break;
                             case LOAD_FILE:
                                 staff = Generics.loadFile(staff, FILE_DIRECTORY + "staffAccounts.ser");
+
+                                customers = Generics.loadFile(customers, FILE_DIRECTORY + "customerAccounts.ser");
                                 break;
                             case LOG_OUT:
                                 returnToMainMenu();
@@ -147,11 +119,11 @@ public class Blacksmith implements Serializable {
                     }while (isRunningSubMenu); //submenu
                     break;
                 case EXIT:
-                    exitProgram();
+                    exitProgram(); //set isRunning to false
                     break;
             }
             isRunningSubMenu = true;
-        }while (isRunning); //continues to run until exitProgram is makes isRUnning to false. Main Menu
+        }while (isRunning); //continues to run until isRunning to false.
     }
 
     private void firstTimeStartingProgram(){

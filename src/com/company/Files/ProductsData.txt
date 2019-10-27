@@ -1,1 +1,3 @@
 Grenade:29.99f:SWORDS
+Blazing Rod:55.49f:AXES
+Thousand Sun:67.99f:ARMOR

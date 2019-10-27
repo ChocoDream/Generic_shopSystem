@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class SaleManagement implements Serializable {
-    private ArrayList<Product> products = new ArrayList<>();
+    private  ArrayList<Product> products = new ArrayList<>();
 
     SaleManagement(){
     }
@@ -40,9 +40,10 @@ public class SaleManagement implements Serializable {
             if(input.equalsIgnoreCase(product.getName())){
                 customer.addProductToCart(product); //sends product to customer where it gets added to customer's cart using a method there.
                 System.out.println(product.getName() + " has been added to cart\n");
-                break;
+                return;
             }
         }
+        System.out.println("Product not found");
     }
 
     private void changeSortingOrder(){
@@ -55,9 +56,15 @@ public class SaleManagement implements Serializable {
     }
 
     private void showAllProducts() {
-        System.out.println("Showing available wares");
-        Generics.showElementsInArrayList(products);
-        System.out.println();
+        if (products.isEmpty()){
+            System.out.println("NO AVAILABLE PRODUCTS");
+            System.out.println("Send an e-mail to the employer of the company to add products");
+        }
+        else {
+            System.out.println("Showing available wares");
+            Generics.showElementsInArrayList(products);
+            System.out.println();
+        }
     }
 
     public void setProducts(ArrayList<Product> products) {

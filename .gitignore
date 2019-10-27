@@ -1,5 +1,5 @@
 .idea
 SubjectAssignment.iml
 out
-src/com/company/Files/customerAcounts.ser
+src/com/company/Files/customerAccounts.ser
 src/com/company/Files/staffAccounts.ser

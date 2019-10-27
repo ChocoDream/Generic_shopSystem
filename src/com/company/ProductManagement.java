@@ -1,7 +1,9 @@
 package com.company;
 
+import com.company.Product;
 import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
+import com.company.View;
 
 import java.util.ArrayList;
 
@@ -50,6 +52,21 @@ public class ProductManagement {
 
     public void addProduct(Product product){
         Generics.addElementToList(products, product);
+    }
+
+    public void removeProduct(String str){
+        if (products.isEmpty()){
+            System.out.println("No products to remove");
+        }
+        else {
+            for (int i = 0; i < products.size(); i++) {
+                if (str.equalsIgnoreCase(products.get(i).getName())) {
+                    products = Generics.removeElementInList(products, i);
+                    return;
+                }
+            }
+            System.out.println("Product not found");
+        }
     }
 
     public ArrayList<Product> getProducts() {
