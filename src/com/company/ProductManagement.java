@@ -1,10 +1,14 @@
 package com.company;
 
+import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
 
-public class ProductManagement {
+import java.util.ArrayList;
 
-    public static Product createProduct(){
+public class ProductManagement {
+    private ArrayList<Product> products = new ArrayList<>();
+
+    public void createProduct(){
         String input;
         String name;
         float price;
@@ -36,11 +40,19 @@ public class ProductManagement {
             System.out.printf("Want to add \n%s(yes to confirm, cancel to not create product and return to previous menu)\n", product);
             input = MiscUtility.scanner.nextLine();
             if (input.equalsIgnoreCase("yes")){
-                return product;
+                addProduct(product);
             }
             else {
                 System.out.println("Canceling creating current product. Starting over...");
             }
         } while (true);
+    }
+
+    public void addProduct(Product product){
+        Generics.addElementToList(products, product);
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
     }
 }

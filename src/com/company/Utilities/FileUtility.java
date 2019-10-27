@@ -33,7 +33,7 @@ public class FileUtility {
         return null;
     }
 
-    public static void saveText(String fileName, List<String> list, StandardOpenOption... option){
+    public static void saveText(List<String> list, String fileName, StandardOpenOption... option){
         Path path = Paths.get(fileName);
         try {
             Files.write(path, list, option);
@@ -55,9 +55,5 @@ public class FileUtility {
 
     public static boolean fileExists(String path){
         return Files.exists(Paths.get( path));
-    }
-
-    public static void saveFiles(){
-
     }
 }

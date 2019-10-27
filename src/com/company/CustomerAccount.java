@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Factories.AccountFactory;
+import com.company.Utilities.Generics;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class CustomerAccount extends Account {
     }
 
     public void addProductToCart(Product product){
-        cart.add(product);
+        Generics.addElementToList(cart, product);
     }
 
     public ArrayList<Product> getCart(){

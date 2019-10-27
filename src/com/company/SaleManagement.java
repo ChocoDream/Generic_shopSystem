@@ -54,17 +54,13 @@ public class SaleManagement implements Serializable {
         }
     }
 
-    public void addProduct(Product product){
-        products.add(product);
-    }
-
     private void showAllProducts() {
         System.out.println("Showing available wares");
         Generics.showElementsInArrayList(products);
         System.out.println();
     }
 
-    public ArrayList<Product> getProducts() {
-        return products;
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
     }
 }

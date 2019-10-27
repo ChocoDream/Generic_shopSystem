@@ -29,36 +29,38 @@ public class Blacksmith implements Serializable {
     private static int index;
 
     private SaleManagement saleManagement = new SaleManagement();
+    private ProductManagement productManagement = new ProductManagement();
     private ArrayList<StaffAccount> staff = new ArrayList<>();
     private ArrayList<CustomerAccount> customers = new ArrayList<>();
 
     Blacksmith(){
         //TESTDATA
-        saleManagement.addProduct(new Product(
+        productManagement.addProduct(new Product(
                 "Blazing Rod",
                 55.49f,
                 Product.Type.AXES
         ));
-        saleManagement.addProduct(new Product(
+        productManagement.addProduct(new Product(
                 "Stabby",
                 29.99f,
                 Product.Type.SWORDS
         ));
-        saleManagement.addProduct(new Product(
+        productManagement.addProduct(new Product(
                 "Sword",
                 19.99f,
                 Product.Type.SWORDS
         ));
-        saleManagement.addProduct(new Product(
+        productManagement.addProduct(new Product(
                 "Sap",
                 69.99f,
                 Product.Type.ARMOR
         ));
-        saleManagement.addProduct(new Product(
+        productManagement.addProduct(new Product(
                 "Flush",
                 39.99f,
                 Product.Type.ARMOR
         ));
+        saleManagement.setProducts(productManagement.getProducts());
     }
 
     public void run(){
@@ -92,7 +94,8 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployeeMenu.values())){
                             case ADD_PRODUCT:
-                                saleManagement.addProduct(ProductManagement.createProduct());
+                                productManagement.createProduct();
+                                saleManagement.setProducts(productManagement.getProducts());
                                 break;
                             case SHOW_EMPLOYEES:
                                 showElementsInArrayListWithIndex(staff);
@@ -114,7 +117,8 @@ public class Blacksmith implements Serializable {
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-                                saleManagement.addProduct(ProductManagement.createProduct());
+                                productManagement.createProduct();
+                                saleManagement.setProducts(productManagement.getProducts());
                                 break;
                             case HIRE_EMPLOYEE:
                                 Generics.addElementToList(staff, AccountManagement.newStaff());
@@ -156,6 +160,19 @@ public class Blacksmith implements Serializable {
         checkForExistingCustomerFile(FILE_DIRECTORY + "customerAccounts.ser");
 
         checkForExistingBlacksmithFile(FILE_DIRECTORY + "BlacksmithData.txt");
+
+        checkForExistingProductsFile(FILE_DIRECTORY + "ProductsData.txt");
+    }
+
+    private void checkForExistingProductsFile(String path){
+        if(FileUtility.fileExists(path)){
+            List<String> rows = FileUtility.loadText(path);
+            for (String row : rows){
+                String[] parts = row.split(":");
+                productManagement.addProduct(new Product(parts[0], Float.parseFloat(parts[1]), Product.Type.valueOf(parts[2]))); //adding items from txt file
+            }
+            saleManagement.setProducts(productManagement.getProducts());
+        }
     }
 
     private void checkForExistingBlacksmithFile(String path) {

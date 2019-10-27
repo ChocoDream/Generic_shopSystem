@@ -2,6 +2,7 @@ package com.company.Utilities;
 
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Generics {
     public static  <E> void showElementsInArrayList(ArrayList<E> list){
@@ -27,18 +28,28 @@ public class Generics {
 
     public static <E> void saveFile(ArrayList<E> list, String path){
         if (!list.isEmpty()) {
-            if (FileUtility.fileExists(path)) {
-                FileUtility.saveObjects(list, path, StandardOpenOption.APPEND);
-            } else {
-                System.out.println("Creating new files");
-                FileUtility.saveObjects(list, path, StandardOpenOption.CREATE);
+            if (path.endsWith("ser")) {
+                if (FileUtility.fileExists(path)) {
+                    FileUtility.saveObjects(list, path, StandardOpenOption.APPEND);
+                } else {
+                    System.out.println("Creating new files");
+                    FileUtility.saveObjects(list, path, StandardOpenOption.CREATE);
+                }
+            }
+            else if(path.endsWith("txt")){
+                if (FileUtility.fileExists(path)) {
+                    FileUtility.saveText((List<String>) list, path, StandardOpenOption.APPEND);
+                } else {
+                    System.out.println("Creating new files");
+                    FileUtility.saveText((List<String>) list, path, StandardOpenOption.CREATE);
+                }
             }
         }
     }
 
     public static <E> ArrayList<E> loadFile(ArrayList<E> list, String path){
-        if(FileUtility.fileExists(path)){
-            list = (ArrayList<E>)FileUtility.loadObject(path);
+        if (FileUtility.fileExists(path)) {
+            list = (ArrayList<E>) FileUtility.loadObject(path);
         }
         else {
             System.out.println("No file found");
