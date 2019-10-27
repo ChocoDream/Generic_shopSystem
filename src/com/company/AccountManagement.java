@@ -5,13 +5,14 @@ import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AccountManagement implements Serializable {
     //Taking care of staff hiring and new customer process. USed to have this in blacksmith program but decided to move it into a seperate class.
     //The result resulted in a much cleaner Code strucutre. Win win I say.
 
-    public static StaffAccount hireStaff(){
+    public static StaffAccount newStaff(){
         AccountFactory.AccountType accountType;
         String name;
         int salary;
@@ -27,7 +28,7 @@ public class AccountManagement implements Serializable {
         return staffAccount;
     }
 
-    public static StaffAccount hireEmployer(){
+    public static StaffAccount newEmployer(){
         AccountFactory.AccountType accountType = AccountFactory.AccountType.EMPLOYER;
         String name;
         int salary;
@@ -82,7 +83,7 @@ public class AccountManagement implements Serializable {
         }while (true);
     }
 
-    public static int askIfCustomerNewAndGetCustomerIndexByID(ArrayList<CustomerAccount> customers) {
+    public static int askIfCustomerIsNewAndReturnIndexElseGetCustomerIndexByID(ArrayList<CustomerAccount> customers) {
         String input; //I'm one of the worst when it comes to making method names
 
         while (true) {
@@ -108,7 +109,7 @@ public class AccountManagement implements Serializable {
         }
     }
 
-    public static int getStaffIndexByID(ArrayList<StaffAccount> staff){
+    public static int getStaffIndexByID(ArrayList<StaffAccount> staff, AccountFactory.AccountType type){
         int idInput;
 
         while (true) {
@@ -117,7 +118,13 @@ public class AccountManagement implements Serializable {
             for (int i = 0; i < staff.size(); i++){
                 if(staff.get(i).ID == idInput){
                     System.out.println("Staff found!");
-                    return i;
+                    if(type.equals(staff.get(i).type)){
+                        return i;
+                    }
+                    else {
+                        System.out.println("But you don't have access!");
+                        return -1; //Returns -1 which is the number for IF the user does not have access to the menu. Makes a continue in the next 2 lines in Blacksmith
+                    }
                 }
             }
             System.out.println("Staff not found");

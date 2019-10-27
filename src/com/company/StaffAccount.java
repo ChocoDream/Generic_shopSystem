@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.Factories.AccountFactory;
+
 public abstract class StaffAccount extends Account{
     protected int salary;
 
@@ -9,10 +11,11 @@ public abstract class StaffAccount extends Account{
     }
 
     public void showInfo() {
-        System.out.printf("Showing info for %1$s:\n" +
+        System.out.printf("Showing info for %1$s\n" +
+                "\tAccountType : %4$s\n" +
                 "\tname : %1$s\n" +
                 "\tID : %2$d\n" +
-                "\tSalary : %3$d\n", name, ID, salary);
+                "\tSalary : %3$d\n", name, ID, salary, type.toString());
     }
     @Override
     public String toString() {

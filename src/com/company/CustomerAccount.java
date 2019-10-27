@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.Factories.AccountFactory;
+
 import java.util.ArrayList;
 
 public class CustomerAccount extends Account {
@@ -8,6 +10,7 @@ public class CustomerAccount extends Account {
 
     public CustomerAccount(String name, int ID){
         super(name, ID);
+        type = AccountFactory.AccountType.CUSTOMER;
     }
 
     public void addProductToCart(Product product){
@@ -20,9 +23,10 @@ public class CustomerAccount extends Account {
 
     @Override
     public void showInfo() { //Not using but can be used if wanted to.
-        System.out.printf("Showing info for %1$s:\n" +
-                "\tname| %1$s\n" +
-                "\tID| %2$d\n", name, 30);
+        System.out.printf("Showing info for %1$s\n" +
+                "\tAccountType : %3$s\n" +
+                "\tname : %1$s\n" +
+                "\tID : %2$d\n", name, ID, type);
     }
 
     @Override

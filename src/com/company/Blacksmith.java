@@ -79,7 +79,7 @@ public class Blacksmith implements Serializable {
             System.out.printf("Welcome to the scorching hot %s\n", companyName);
             switch (View.getInstance().showMenuAndGetChoice(MainMenu.values())) {
                 case GOTO_CUSTOMER:
-                    index = AccountManagement.askIfCustomerNewAndGetCustomerIndexByID(customers); //Index of customer. Uses ID to find customer.
+                    index = AccountManagement.askIfCustomerIsNewAndReturnIndexElseGetCustomerIndexByID(customers); //Index of customer. Uses ID to find customer.
                     do {
                         System.out.printf("Welcome %s!\n", customers.get(index));
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
@@ -96,7 +96,10 @@ public class Blacksmith implements Serializable {
                     }while (isRunningSubMenu); //submenu
                     break;
                 case GOTO_EMPLOYEE:
-                    index = AccountManagement.getStaffIndexByID(staff);
+                    index = AccountManagement.getStaffIndexByID(staff, AccountFactory.AccountType.EMPLOYEE);
+                    if (index == -1){ //When you don't have access
+                        continue;
+                    }
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployeeMenu.values())){
                             case ADD_PRODUCT:
@@ -115,14 +118,17 @@ public class Blacksmith implements Serializable {
                     }while (isRunningSubMenu); //Submenu
                     break;
                 case GOTO_EMPLOYER:
-                    index = AccountManagement.getStaffIndexByID(staff);
+                    index = AccountManagement.getStaffIndexByID(staff, AccountFactory.AccountType.EMPLOYER);
+                    if (index == -1){
+                        continue;
+                    }
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
                                 saleManagement.addProduct(ProductManagement.createProduct());
                                 break;
                             case HIRE_EMPLOYEE:
-                                Generics.addElementToList(staff, AccountManagement.hireStaff());
+                                Generics.addElementToList(staff, AccountManagement.newStaff());
                                 break;
                             case SHOW_EMPLOYEES:
                                 showElementsInArrayListWithIndex(staff);
@@ -173,7 +179,7 @@ public class Blacksmith implements Serializable {
         }
         else {
             System.out.println("Not existing data found");
-            Generics.addElementToList(staff, AccountManagement.hireEmployer());
+            Generics.addElementToList(staff, AccountManagement.newEmployer());
         }
     }
 
