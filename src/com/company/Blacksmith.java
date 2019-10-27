@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Factories.AccountFactory;
 import com.company.Menu.CustomerMenu;
 import com.company.Menu.EmployeeMenu;
 import com.company.Menu.EmployerMenu;
@@ -26,6 +27,7 @@ public class Blacksmith implements Serializable {
     private String companyName = null;
     private boolean isRunning = true;
     private boolean isRunningSubMenu = true;
+    private static int index;
 
     //TEMPOARY
     private static CustomerAccount testCustomer = new CustomerAccount("aha", 4320);
@@ -77,7 +79,7 @@ public class Blacksmith implements Serializable {
             System.out.printf("Welcome to the scorching hot %s\n", companyName);
             switch (View.getInstance().showMenuAndGetChoice(MainMenu.values())) {
                 case GOTO_CUSTOMER:
-                    int index = askIfCustomerNewAndGetCustomerIndex(); //Index of customer. Uses ID to find customer.
+                    index = AccountManagement.askIfCustomerNewAndGetCustomerIndexByID(customers); //Index of customer. Uses ID to find customer.
                     do {
                         System.out.printf("Welcome %s!\n", customers.get(index));
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
@@ -94,6 +96,7 @@ public class Blacksmith implements Serializable {
                     }while (isRunningSubMenu); //submenu
                     break;
                 case GOTO_EMPLOYEE:
+                    index = AccountManagement.getStaffIndexByID(staff);
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployeeMenu.values())){
                             case ADD_PRODUCT:
@@ -103,7 +106,7 @@ public class Blacksmith implements Serializable {
                                 showElementsInArrayListWithIndex(staff);
                                 break;
                             case SHOW_INFO:
-                                employee.showInfo(); //Using an interface method in Account
+                                staff.get(index).showInfo(); //Using an interface method in Account
                                 break;
                             case LOG_OUT:
                                 returnToMainMenu();
@@ -112,6 +115,7 @@ public class Blacksmith implements Serializable {
                     }while (isRunningSubMenu); //Submenu
                     break;
                 case GOTO_EMPLOYER:
+                    index = AccountManagement.getStaffIndexByID(staff);
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
@@ -127,7 +131,7 @@ public class Blacksmith implements Serializable {
                                 showElementsInArrayListWithIndex(customers);
                                 break;
                             case SHOW_INFO:
-                                employer.showInfo();
+                                staff.get(index).showInfo();
                                 break;
                             case SAVE_FILE:
                                 saveFilesCheckForExistingFiles();
@@ -149,31 +153,6 @@ public class Blacksmith implements Serializable {
         }while (isRunning); //continues to run until exitProgram is makes isRUnning to false. Main Menu
     }
 
-    private int askIfCustomerNewAndGetCustomerIndex() {
-        while (true) {
-            String input;
-            System.out.println("Are you a new Customer? (yes/no)");
-            input = MiscUtility.scanner.nextLine();
-            if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
-                Generics.addElementToList(customers, AccountManagement.newCustomer());
-                return (customers.size() - 1);
-            } else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")){
-                System.out.println("Enter ID");
-                int idInput = MiscUtility.returnIntegerFromString();
-                for (int i = 0; i < customers.size(); i++){
-                    if (customers.get(i).ID == idInput){
-                        System.out.println("Customer found!");
-                        return i;
-                    }
-                }
-                    System.out.println("Customer not found");
-            }
-            else{
-                System.out.println("Invalid input");
-            }
-        }
-    }
-
     private void saveFilesCheckForExistingFiles() {
         if ((Files.exists(Paths.get(FILE_DIRECTORY + "/staffAccounts.ser")))
             && (Files.exists(Paths.get(FILE_DIRECTORY + "/customersAccounts.ser")))){
@@ -193,7 +172,8 @@ public class Blacksmith implements Serializable {
             loadFiles();
         }
         else {
-            System.out.println("File(s) not found");
+            System.out.println("Not existing data found");
+            Generics.addElementToList(staff, AccountManagement.hireEmployer());
         }
     }
 
