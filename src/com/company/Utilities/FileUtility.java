@@ -6,15 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileUtility {
     //Taken from java19l nodehill, Article fileutility
 
-    public static void saveObject(Object o, String fileName, StandardOpenOption... option){
+    public static <E> void saveObjects(ArrayList<E> objects, String fileName, StandardOpenOption... option){
         Path path = Paths.get(fileName);
         try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(path, option))){
-            out.writeObject(o);
+            out.writeObject(objects);
         }
         catch (Exception e){
             e.printStackTrace();

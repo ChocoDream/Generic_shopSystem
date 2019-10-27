@@ -1,11 +1,7 @@
 package com.company.Utilities;
 
-import com.company.Blacksmith;
-
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class Generics {
     public static  <E> void showElementsInArrayList(ArrayList<E> list){
@@ -32,10 +28,10 @@ public class Generics {
     public static <E> void saveFile(ArrayList<E> list, String path){
         if (!list.isEmpty()) {
             if (FileUtility.fileExists(path)) {
-                FileUtility.saveObject(list, path, StandardOpenOption.APPEND);
+                FileUtility.saveObjects(list, path, StandardOpenOption.APPEND);
             } else {
                 System.out.println("Creating new files");
-                FileUtility.saveObject(list, path, StandardOpenOption.CREATE);
+                FileUtility.saveObjects(list, path, StandardOpenOption.CREATE);
             }
         }
     }
