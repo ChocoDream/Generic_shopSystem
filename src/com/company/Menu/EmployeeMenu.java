@@ -1,7 +1,5 @@
 package com.company.Menu;
 
-import com.company.DefineMenu;
-
 public enum EmployeeMenu implements DefineMenu {
     ADD_PRODUCT("Add product"),
     SHOW_EMPLOYEES("Show all employees"),

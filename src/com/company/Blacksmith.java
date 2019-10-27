@@ -129,21 +129,12 @@ public class Blacksmith implements Serializable {
                                 staff.get(index).showInfo();
                                 break;
                             case SAVE_FILE:
-                                if(FileUtility.fileExists(FILE_DIRECTORY + "staffAccounts.ser")){
-                                    FileUtility.saveObject(staff, FILE_DIRECTORY, StandardOpenOption.APPEND);
-                                }
-                                else {
-                                    System.out.println("Creating new files");
-                                    FileUtility.saveObject(staff, FILE_DIRECTORY, StandardOpenOption.CREATE);
-                                }
+                                Generics.saveFile(staff, FILE_DIRECTORY + "staffAccounts.ser");
+
+                                Generics.saveFile(customers, FILE_DIRECTORY + "customerAccounts.ser");
                                 break;
                             case LOAD_FILE:
-                                if(FileUtility.fileExists(FILE_DIRECTORY + "staffAccounts.ser")){
-                                    staff = (ArrayList<StaffAccount>)FileUtility.loadObject(FILE_DIRECTORY + "/staffAccounts.ser");
-                                }
-                                else {
-                                    System.out.println("No files found");
-                                }
+                                staff = Generics.loadFile(staff, FILE_DIRECTORY + "staffAccounts.ser");
                                 break;
                             case LOG_OUT:
                                 returnToMainMenu();
@@ -184,11 +175,9 @@ public class Blacksmith implements Serializable {
     }
 
     private void checkForExistingStaffFile(String path) {
-        if (FileUtility.fileExists(path)){ //If there exist staffAccounts
-            staff = (ArrayList<StaffAccount>)FileUtility.loadObject(path);
-        }
-        else {
-            System.out.printf("No %s found!\n", path); //Assumes you're the employer
+        staff = Generics.loadFile(staff, path);
+
+        if (staff.isEmpty()) {
             Generics.addElementToList(staff, AccountManagement.newEmployer());
         }
     }

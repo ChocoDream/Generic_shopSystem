@@ -1,7 +1,5 @@
 package com.company.Menu;
 
-import com.company.DefineMenu;
-
 public enum MainMenu implements DefineMenu {
     GOTO_CUSTOMER("Go to Customer menu"),
     GOTO_EMPLOYEE("Go to Employee menu"),

@@ -1,7 +1,5 @@
 package com.company.Menu;
 
-import com.company.DefineMenu;
-
 public enum CustomerMenu implements DefineMenu {
     GO_TO_STORE("Go to Store"),
     SHOW_CART("Show shopping cart"),
