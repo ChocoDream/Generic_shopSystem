@@ -14,10 +14,6 @@ public abstract class Account implements Serializable {
         this.ID = ID;
     }
 
-    public AccountFactory.AccountType getType() {
-        return type;
-    }
-
     public abstract void showInfo();
 
     public abstract String toString();
