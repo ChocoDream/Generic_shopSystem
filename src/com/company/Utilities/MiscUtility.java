@@ -11,7 +11,7 @@ public class MiscUtility {
     public static int generateID(int length){
         String str = ""; //length tells how long the ID should be. etc 4 numbers long equals length = 4
         for (int i = 0; i < length; i++){
-            str += rnd.nextInt(10);
+            str += (rnd.nextInt(9) + 1);
         }
         return Integer.parseInt(str);
     }

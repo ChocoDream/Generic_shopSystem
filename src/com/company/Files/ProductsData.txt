@@ -1,12 +1,12 @@
-Dreambinder:67,99f:GREATSWORDS
-Fusion Idol:199.99f:ARMOR
-Amnesia:49,90f:AXES
-Shadowbite:69,90:DAGGERS
-Blazing Rod:55,49f:AXES
 CLAYMORE:9,99f:SWORDS
-FLEXBLAX:29,90:SWORDS
-Frozen Shortblade:69,90:DAGGERS
-Spada:19,90:SWORDS
-Leather Armor:25,99:ARMOR
-Steel Armor:36,99:ARMOR
-SunScald Armor:42,69:ARMOR
+Spada:19,90f:SWORDS
+Leather Armor:25,99f:ARMOR
+Flexblax:29,90f:SWORDS
+Steel Armor:36,99f:ARMOR
+SunScald Armor:42,69f:ARMOR
+Amnesia:49,90f:AXES
+Blazing Rod:55,49f:AXES
+Dreambinder:67,99f:GREATSWORDS
+Shadowbite:69,90f:DAGGERS
+Frozen Shortblade:69,90f:DAGGERS
+Fusion Idol:199,99f:ARMOR

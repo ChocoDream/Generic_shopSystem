@@ -31,8 +31,12 @@ public class SaleManagement implements Serializable {
                 continue;
             }
 
+            if (input.equalsIgnoreCase("return")){
+                break;
+            }
+
             addProductToCustomerCart(customer, input);
-        }while (!input.equalsIgnoreCase("return"));
+        }while (true);
     }
 
     private void addProductToCustomerCart(CustomerAccount customer, String input) {

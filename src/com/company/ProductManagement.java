@@ -71,8 +71,12 @@ public class ProductManagement {
                 continue;
             }
 
+            if (input.equalsIgnoreCase("return")){
+                break; //stops the loop
+            }
+
             removeProduct(products, input);
-        }while (!input.equalsIgnoreCase("return"));
+        }while (true);
     }
 
     private void changeSortingOrder(){
