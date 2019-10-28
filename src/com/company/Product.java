@@ -6,8 +6,12 @@ public class Product implements Serializable, Comparable<Product> {
 
     protected enum Type{
         AXES,
+        DAGGERS,
         SWORDS,
         ARMOR,
+        MACES,
+        PIKES,
+        GREATSWORDS,
     }
 
     protected enum SortBy{

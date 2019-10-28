@@ -73,7 +73,7 @@ public class Blacksmith implements Serializable {
                                 saleManagement.setProducts(productManagement.getProducts());
                                 break;
                             case REMOVE_PRODUCT:
-
+                                productManagement.menu();
                                 break;
                             case SHOW_EMPLOYEES:
                                 StaffManagement.showList(staff);
@@ -104,7 +104,7 @@ public class Blacksmith implements Serializable {
                                 saleManagement.setProducts(productManagement.getProducts());
                                 break;
                             case REMOVE_PRODUCT:
-
+                                productManagement.menu();
                                 break;
                             case HIRE_EMPLOYEE:
                                 staff = Generics.addElementToList(staff, AccountManagement.newStaff());
@@ -162,6 +162,9 @@ public class Blacksmith implements Serializable {
             List<String> rows = FileUtility.loadText(path);
             for (String row : rows){
                 String[] parts = row.split(":");
+                if (parts[1].contains(",")) {
+                    parts[1] = parts[1].replace(",", ".");
+                }
                 productManagement.addProduct(new Product(parts[0], Float.parseFloat(parts[1]), Product.Type.valueOf(parts[2]))); //adding items from txt file
             }
             saleManagement.setProducts(productManagement.getProducts());

@@ -23,16 +23,16 @@ public class SaleManagement implements Serializable {
             System.out.printf("Write name of product to add to cart." +
                     "\nWrite SORT to change Sorting order. " +
                     "\nCurrently sorting by '%s'" +
-                    "\nWrite 'return' to head back to menu\n", Product.getSortBy().description);
+                    "\nWrite 'return' to go back to menu\n", Product.getSortBy().description);
             input = MiscUtility.scanner.nextLine();
 
             if (input.equals("SORT")){
                 changeSortingOrder();
+                continue;
             }
 
             addProductToCustomerCart(customer, input);
-
-        }while (!(input.equalsIgnoreCase("return")));
+        }while (!input.equalsIgnoreCase("return"));
     }
 
     private void addProductToCustomerCart(CustomerAccount customer, String input) {
@@ -57,14 +57,12 @@ public class SaleManagement implements Serializable {
 
     private void showAllProducts() {
         if (products.isEmpty()){
-            System.out.println("NO AVAILABLE PRODUCTS");
-            System.out.println("Send an e-mail to the employer of the company to add products");
+            System.out.println("No available products!");
         }
         else {
-            System.out.println("Showing available wares");
             Generics.showElementsInArrayList(products);
-            System.out.println();
         }
+        System.out.println();
     }
 
     public void setProducts(ArrayList<Product> products) {

@@ -4,6 +4,7 @@ import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ProductManagement {
     private ArrayList<Product> products = new ArrayList<>();
@@ -53,14 +54,42 @@ public class ProductManagement {
         Generics.addElementToList(products, product);
     }
 
-    public void removeProduct() {
+    public void menu(){
+        String input;
+        do{
+            Collections.sort(products);
+            showAllProducts(products);
+
+            System.out.printf("Write name of product you want to remove" +
+                    "\nWrite SORT to Change Sorting order" +
+                    "\nCurrently sorting by '%s'" +
+                    "\nWrite 'return' to go back to menu\n", Product.getSortBy().description);
+            input = MiscUtility.scanner.nextLine();
+
+            if (input.equals("SORT")){
+                changeSortingOrder();
+                continue;
+            }
+
+            removeProduct(products, input);
+        }while (!input.equalsIgnoreCase("return"));
+    }
+
+    private void changeSortingOrder(){
+        if (Product.getSortBy().ordinal() < (Product.SortBy.values().length) -1){ //As far Index is not at the end of the enum. Preventing out of bounds
+            Product.setSortBy(Product.getSortBy().ordinal() + 1); //Moves index by 1
+        }
+        else {
+            Product.setSortBy(0); //Reset index back to the first of the enum. Such a simple yet nice way to make a sort.
+        }
+    }
+
+    public void removeProduct(ArrayList<Product> products, String str) {
         if (products.isEmpty()) {
             System.out.println("No products to remove");
             return;
         }
 
-        System.out.println("Product you wishes to remove :");
-        String str = MiscUtility.scanner.nextLine();
         for (int i = 0; i < products.size(); i++) {
             if (str.equalsIgnoreCase(products.get(i).getName())) {
                 System.out.printf("%s has been removed\n", products.get(i).getName());
@@ -73,6 +102,16 @@ public class ProductManagement {
 
     public ArrayList<Product> getProducts() {
         return products;
+    }
+
+    public void showAllProducts(ArrayList<Product> products){
+        if (products.isEmpty()){
+            System.out.println("No available products!");
+        }
+        else {
+            Generics.showElementsInArrayList(products);
+        }
+        System.out.println();
     }
 
     public ArrayList<String> prepareForTXTfile(ArrayList<Product> products){

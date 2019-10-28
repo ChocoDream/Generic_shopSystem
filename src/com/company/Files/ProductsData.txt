@@ -1,3 +1,12 @@
-Grenade2:9,99f:SWORDS
+Dreambinder:67,99f:GREATSWORDS
+Fusion Idol:199.99f:ARMOR
+Amnesia:49,90f:AXES
+Shadowbite:69,90:DAGGERS
 Blazing Rod:55,49f:AXES
-Thousand Sun:67,99f:ARMOR
+CLAYMORE:9,99f:SWORDS
+FLEXBLAX:29,90:SWORDS
+Frozen Shortblade:69,90:DAGGERS
+Spada:19,90:SWORDS
+Leather Armor:25,99:ARMOR
+Steel Armor:36,99:ARMOR
+SunScald Armor:42,69:ARMOR

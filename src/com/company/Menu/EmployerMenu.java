@@ -2,7 +2,7 @@ package com.company.Menu;
 
 public enum EmployerMenu implements DefineMenu {
     ADD_PRODUCT("Add product"),
-    REMOVE_PRODUCT("Remove product"),
+    REMOVE_PRODUCT("Show all products and remove products if desired"),
     HIRE_EMPLOYEE("Hire a new employee"),
     FIRE_EMPLOYEE("Fire an employee"),
     SHOW_EMPLOYEES("Show all employees"),
