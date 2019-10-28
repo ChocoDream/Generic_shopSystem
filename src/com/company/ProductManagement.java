@@ -1,9 +1,7 @@
 package com.company;
 
-import com.company.Product;
 import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
-import com.company.View;
 
 import java.util.ArrayList;
 
@@ -43,6 +41,7 @@ public class ProductManagement {
             input = MiscUtility.scanner.nextLine();
             if (input.equalsIgnoreCase("yes")){
                 addProduct(product);
+                break;
             }
             else {
                 System.out.println("Canceling creating current product. Starting over...");
@@ -54,22 +53,36 @@ public class ProductManagement {
         Generics.addElementToList(products, product);
     }
 
-    public void removeProduct(String str){
-        if (products.isEmpty()){
+    public void removeProduct() {
+        if (products.isEmpty()) {
             System.out.println("No products to remove");
+            return;
         }
-        else {
-            for (int i = 0; i < products.size(); i++) {
-                if (str.equalsIgnoreCase(products.get(i).getName())) {
-                    products = Generics.removeElementInList(products, i);
-                    return;
-                }
+
+        System.out.println("Product you wishes to remove :");
+        String str = MiscUtility.scanner.nextLine();
+        for (int i = 0; i < products.size(); i++) {
+            if (str.equalsIgnoreCase(products.get(i).getName())) {
+                System.out.printf("%s has been removed\n", products.get(i).getName());
+                products = Generics.removeElementInList(products, i);
+                return;
             }
-            System.out.println("Product not found");
         }
+        System.out.println("Product not found");
     }
 
     public ArrayList<Product> getProducts() {
         return products;
+    }
+
+    public ArrayList<String> prepareForTXTfile(ArrayList<Product> products){
+        String inData = "";
+        ArrayList<String> outDataArray = new ArrayList<>();
+        for (Product product : products){
+            inData = String.format("%1$s:%2$.2ff:%3$s", product.getName(), product.getPrice(), product.getType());
+            outDataArray.add(inData);
+        }
+
+        return outDataArray;
     }
 }

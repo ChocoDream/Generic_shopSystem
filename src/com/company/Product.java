@@ -41,6 +41,10 @@ public class Product implements Serializable, Comparable<Product> {
         return name;
     }
 
+    public Type getType() {
+        return type;
+    }
+
     public String toString() {
         return String.format("%1$s\t%2$.2f SEK" +
                 "\nType: %3$s\n", name, price, type);

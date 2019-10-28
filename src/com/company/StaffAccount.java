@@ -1,7 +1,5 @@
 package com.company;
 
-import com.company.Factories.AccountFactory;
-
 public abstract class StaffAccount extends Account{
     protected int salary;
 

@@ -5,7 +5,6 @@ import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AccountManagement implements Serializable {
@@ -111,6 +110,7 @@ public class AccountManagement implements Serializable {
             }
         }
     }
+    //Make the method above into boolean and seperate it into two methods, where one can be generic used for both staff and customer TODO tomorrow
 
     public static int getStaffIndexByID(ArrayList<StaffAccount> staff, AccountFactory.AccountType type){
         int idInput;

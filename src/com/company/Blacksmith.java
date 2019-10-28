@@ -10,6 +10,7 @@ import com.company.Utilities.Generics;
 import com.company.Utilities.MiscUtility;
 
 import java.io.Serializable;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class Blacksmith implements Serializable {
             switch (View.getInstance().showMenuAndGetChoice(MainMenu.values())) {
                 case GOTO_CUSTOMER:
                     index = AccountManagement.askIfCustomerIsNewAndReturnIndexElseGetCustomerIndexByID(customers); //Index of customer. Uses ID to find customer.
+
                     do {
                         System.out.printf("Welcome %s!\n", customers.get(index));
                         switch (View.getInstance().showMenuAndGetChoice(CustomerMenu.values())) {
@@ -55,6 +57,7 @@ public class Blacksmith implements Serializable {
                                 break;
                         }
                     }while (isRunningSubMenu); //submenu
+
                     Generics.saveFile(customers, FILE_DIRECTORY + "customerAccounts.ser"); //saves customer to customerAccounts.ser
                     break;
                 case GOTO_EMPLOYEE:
@@ -62,16 +65,25 @@ public class Blacksmith implements Serializable {
                     if (index == -1){ //When you don't have access
                         continue;
                     }
+
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployeeMenu.values())){
                             case ADD_PRODUCT:
+                                productManagement.createProduct();
+                                saleManagement.setProducts(productManagement.getProducts());
+                                break;
+                            case REMOVE_PRODUCT:
 
                                 break;
                             case SHOW_EMPLOYEES:
-                                Generics.showElementsInArrayListWithIndex(staff);
+                                StaffManagement.showList(staff);
                                 break;
                             case SHOW_INFO:
                                 staff.get(index).showInfo(); //Using an interface method in Account
+                                break;
+                            case SAVE_TXTFILE:
+                                Generics.saveTextFile(productManagement.prepareForTXTfile(productManagement.getProducts()), FILE_DIRECTORY + "ProductsData.txt");
+                                System.out.println("Saved");
                                 break;
                             case LOG_OUT:
                                 returnToMainMenu();
@@ -84,14 +96,21 @@ public class Blacksmith implements Serializable {
                     if (index == -1){
                         continue;
                     }
+
                     do{
                         switch (View.getInstance().showMenuAndGetChoice(EmployerMenu.values())){
                             case ADD_PRODUCT:
-                                productManagement.createProduct(); //creates a product
-                                saleManagement.setProducts(productManagement.getProducts()); //gets all products from saleManagement to productManagement
+                                productManagement.createProduct();
+                                saleManagement.setProducts(productManagement.getProducts());
+                                break;
+                            case REMOVE_PRODUCT:
+
                                 break;
                             case HIRE_EMPLOYEE:
-                                Generics.addElementToList(staff, AccountManagement.newStaff());
+                                staff = Generics.addElementToList(staff, AccountManagement.newStaff());
+                                break;
+                            case FIRE_EMPLOYEE:
+                                StaffManagement.fireStaff(staff);
                                 break;
                             case SHOW_EMPLOYEES:
                                 Generics.showElementsInArrayListWithIndex(staff);
@@ -104,12 +123,14 @@ public class Blacksmith implements Serializable {
                                 break;
                             case SAVE_FILE:
                                 Generics.saveFile(staff, FILE_DIRECTORY + "staffAccounts.ser");
-
-                                Generics.saveFile(customers, FILE_DIRECTORY + "customerAccounts.ser");
+                                System.out.println("Saved");
+                                break;
+                            case SAVE_TXTFILE:
+                                Generics.saveTextFile(productManagement.prepareForTXTfile(productManagement.getProducts()), FILE_DIRECTORY + "ProductsData.txt");
+                                System.out.println("Saved");
                                 break;
                             case LOAD_FILE:
                                 staff = Generics.loadFile(staff, FILE_DIRECTORY + "staffAccounts.ser");
-
                                 customers = Generics.loadFile(customers, FILE_DIRECTORY + "customerAccounts.ser");
                                 break;
                             case LOG_OUT:
@@ -160,6 +181,10 @@ public class Blacksmith implements Serializable {
             System.out.printf("No %s found\n", path); //If no blacksmithData exist
             System.out.println("Name of blacksmith");
             companyName = MiscUtility.scanner.nextLine();
+
+            ArrayList<String> lines = new ArrayList<>();
+            lines.add("CompanyName:"+companyName);
+            FileUtility.saveText(lines, path, StandardOpenOption.CREATE);
         }
     }
 

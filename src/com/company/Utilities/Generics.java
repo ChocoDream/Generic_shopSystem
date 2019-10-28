@@ -36,24 +36,24 @@ public class Generics {
         return list;
     }
 
-    public static <E> void saveFile(ArrayList<E> list, String path){
+    public static <E> void saveFile(ArrayList<E> list, String path, StandardOpenOption... option) {
         if (!list.isEmpty()) {
-            if (path.endsWith("ser")) {
-                if (FileUtility.fileExists(path)) {
-                    FileUtility.saveObjects(list, path, StandardOpenOption.APPEND);
-                } else {
-                    System.out.println("Creating new files");
-                    FileUtility.saveObjects(list, path, StandardOpenOption.CREATE);
-                }
+            if (FileUtility.fileExists(path)) {
+                FileUtility.saveObjects(list, path, option);
+            } else {
+                System.out.println("Creating new files");
+                FileUtility.saveObjects(list, path, StandardOpenOption.CREATE);
             }
-            else if(path.endsWith("txt")){
-                if (FileUtility.fileExists(path)) {
-                    FileUtility.saveText((List<String>) list, path, StandardOpenOption.APPEND);
-                } else {
-                    System.out.println("Creating new files");
-                    FileUtility.saveText((List<String>) list, path, StandardOpenOption.CREATE);
-                }
-            }
+        }
+    }
+
+    public static <E> void saveTextFile(List<String> list, String path, StandardOpenOption... option){
+        if (FileUtility.fileExists(path)){
+            FileUtility.saveText(list, path, option);
+        }
+        else {
+            System.out.println("Creating new files");
+            FileUtility.saveText(list, path, StandardOpenOption.CREATE);
         }
     }
 
