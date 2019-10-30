@@ -35,7 +35,13 @@ public class Blacksmith implements Serializable {
     }
 
     public void run(){
-        firstTimeStartingProgram();
+        checkForExistingStaffFile(FILE_DIRECTORY + "staffAccounts.ser");
+
+        checkForExistingCustomerFile(FILE_DIRECTORY + "customerAccounts.ser");
+
+        checkForExistingBlacksmithFile(FILE_DIRECTORY + "BlacksmithData.txt");
+
+        checkForExistingProductsFile(FILE_DIRECTORY + "ProductsData.txt");
 
         do{
             System.out.printf("Welcome to the scorching hot %s\n", companyName);
@@ -145,16 +151,6 @@ public class Blacksmith implements Serializable {
             }
             isRunningSubMenu = true;
         }while (isRunning); //continues to run until isRunning to false.
-    }
-
-    private void firstTimeStartingProgram(){
-        checkForExistingStaffFile(FILE_DIRECTORY + "staffAccounts.ser");
-
-        checkForExistingCustomerFile(FILE_DIRECTORY + "customerAccounts.ser");
-
-        checkForExistingBlacksmithFile(FILE_DIRECTORY + "BlacksmithData.txt");
-
-        checkForExistingProductsFile(FILE_DIRECTORY + "ProductsData.txt");
     }
 
     private void checkForExistingProductsFile(String path){
