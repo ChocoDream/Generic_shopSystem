@@ -18,7 +18,7 @@ public class View {
                 i++;
             }
             int choiceIndex = (MiscUtility.returnIntegerFromString() - 1);
-            if (choiceIndex < menuItems.length) {
+            if (choiceIndex < menuItems.length && (choiceIndex >= 0)) {
                 return menuItems[choiceIndex];
             }
         }while (true);
