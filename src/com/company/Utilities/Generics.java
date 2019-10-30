@@ -14,8 +14,8 @@ public class Generics {
     /**
      * Shows all elements in a list
      *
-     * @param list indata ArrayList, could be of any type
-     * @param <E> Generic E for element
+     * @param list indata ArrayList
+     * @param <E> Generic E for element. Could be any type
      */
     public static  <E> void showElementsInArrayList(ArrayList<E> list){
         for(E element : list){ //Generic foreach print element in ArrayList
@@ -25,9 +25,9 @@ public class Generics {
     }
 
     /**
-     *  Shows all element in a list with an andex, starting from 1.
-     * @param list indata ArrayList, could be of any type
-     * @param <E> Generic E for element
+     *  Shows all element in a list with an index, starting from 1.
+     * @param list indata ArrayList
+     * @param <E> Generic E for element. Could be any type
      */
     public static  <E> void showElementsInArrayListWithIndex(ArrayList<E> list){
         int index = 1;
@@ -39,9 +39,10 @@ public class Generics {
 
     /**
      *
-     * @param list indata ArrayList, could be of any type
-     * @param element element you want to add to ArrayList
-     * @return returns the list with the new element added if the element is not empty. 
+     * @param list indata ArrayList
+     * @param <E> Generic E for element. Could be any tpe
+     * @param element element you want to add to ArrayList. Could be any type
+     * @return returns the list with the new element added if the element is not empty.
      */
     public static <E> ArrayList<E> addElementToList(ArrayList<E> list, E element){
         if (element != null){
@@ -50,6 +51,13 @@ public class Generics {
         return list;
     }
 
+    /**
+     *
+     * @param list indata ArrayList
+     * @param index Index of the element you want to remove
+     * @param <E> Generic E for element. Could be any type
+     * @return returns the list with element removed.
+     */
     public static <E> ArrayList<E> removeElementInList(ArrayList<E> list, int index){
         try {
             list.remove(index);
@@ -71,7 +79,13 @@ public class Generics {
         }
     }
 
-    public static <E> void saveTextFile(List<String> list, String path, StandardOpenOption... option){
+    /**
+     *
+     * @param list indata ArrayList
+     * @param path path of file-directory
+     * @param option StandardOpenOptions, can add multiple
+     */
+    public static void saveTextFile(List<String> list, String path, StandardOpenOption... option){
         if (FileUtility.fileExists(path)){
             FileUtility.saveText(list, path, option);
         }
@@ -81,6 +95,13 @@ public class Generics {
         }
     }
 
+    /**
+     *
+     * @param list indata ArrayList
+     * @param path path of file-directory
+     * @param <E> Generic E for element. Could be any type
+     * @return returns outdata Arraylist. If path found, return list from file, otherwise return indata Arraylist.
+     */
     public static <E> ArrayList<E> loadFile(ArrayList<E> list, String path){
         if (FileUtility.fileExists(path)) {
             list = (ArrayList<E>) FileUtility.loadObject(path);
