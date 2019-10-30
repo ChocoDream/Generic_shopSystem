@@ -54,7 +54,7 @@ public class ProductManagement {
         Generics.addElementToList(products, product);
     }
 
-    public void menu(){
+    public void removeMenu(){
         String input;
         do{
             Collections.sort(products);

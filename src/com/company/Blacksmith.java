@@ -79,7 +79,7 @@ public class Blacksmith implements Serializable {
                                 saleManagement.setProducts(productManagement.getProducts());
                                 break;
                             case REMOVE_PRODUCT:
-                                productManagement.menu();
+                                productManagement.removeMenu();
                                 break;
                             case SHOW_EMPLOYEES:
                                 StaffManagement.showList(staff);
@@ -110,7 +110,7 @@ public class Blacksmith implements Serializable {
                                 saleManagement.setProducts(productManagement.getProducts());
                                 break;
                             case REMOVE_PRODUCT:
-                                productManagement.menu();
+                                productManagement.removeMenu();
                                 break;
                             case HIRE_EMPLOYEE:
                                 staff = Generics.addElementToList(staff, AccountManagement.newStaff());
