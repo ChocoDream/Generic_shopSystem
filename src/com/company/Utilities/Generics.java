@@ -4,13 +4,31 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Daniel Hansson
+ * @since 2019-10-30
+ *
+ * Generic class used in add/remove/show arraylist related classes and save/load files.
+ */
 public class Generics {
+    /**
+     * Shows all elements in a list
+     *
+     * @param list indata ArrayList, could be of any type
+     * @param <E> Generic E for element
+     */
     public static  <E> void showElementsInArrayList(ArrayList<E> list){
         for(E element : list){ //Generic foreach print element in ArrayList
             System.out.print(element);
         }
         System.out.println();
     }
+
+    /**
+     *  Shows all element in a list with an andex, starting from 1.
+     * @param list indata ArrayList, could be of any type
+     * @param <E> Generic E for element
+     */
     public static  <E> void showElementsInArrayListWithIndex(ArrayList<E> list){
         int index = 1;
         for(E element : list){ //Generic foreach print element with index in ArrayList
@@ -19,6 +37,12 @@ public class Generics {
         System.out.println();
     }
 
+    /**
+     *
+     * @param list indata ArrayList, could be of any type
+     * @param element element you want to add to ArrayList
+     * @return returns the list with the new element added if the element is not empty. 
+     */
     public static <E> ArrayList<E> addElementToList(ArrayList<E> list, E element){
         if (element != null){
             list.add(element);   //Add element to list if element ain't empty, else return same list without a new element added.
